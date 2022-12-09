@@ -23,9 +23,9 @@ public class BankController {
     }
 
     @GetMapping("banks")
-    public ResponseEntity<List<Bank>> getLogins() {
+    public ResponseEntity<List<Bank>> getBanks() {
         try {
-            return ResponseEntity.ok(bankService.getLogins());
+            return ResponseEntity.ok(bankService.getBanks());
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }

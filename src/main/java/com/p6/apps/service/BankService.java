@@ -17,5 +17,5 @@ public class BankService {
         this.bankRepository = bankRepository;
     }
 
-    public List<Bank> getLogins() {return bankConverter.mapperBank(bankRepository.findAll());}
+    public List<Bank> getBanks() {return bankConverter.mapperBank(bankRepository.findAll());}
 }
