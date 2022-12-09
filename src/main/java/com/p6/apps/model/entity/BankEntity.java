@@ -20,5 +20,6 @@ public class BankEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBank;
 
+    private String iban;
     private double amountBank;
 }

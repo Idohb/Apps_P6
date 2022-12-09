@@ -3,5 +3,6 @@ import lombok.Data;
 
 @Data
 public class Bank {
+    private String iban;
     private double amountBank;
 }

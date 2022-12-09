@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class BankRequest {
+    private String iban;
     private double amountBank;
 }
