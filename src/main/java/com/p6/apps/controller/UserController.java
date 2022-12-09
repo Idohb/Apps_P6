@@ -22,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("login")
+    @GetMapping("logins")
     public ResponseEntity<List<User>> getLogins() {
         try {
             return ResponseEntity.ok(userService.getLogins());
