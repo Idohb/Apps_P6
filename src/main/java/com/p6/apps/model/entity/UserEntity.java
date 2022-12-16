@@ -1,13 +1,12 @@
 package com.p6.apps.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Builder
@@ -27,5 +26,11 @@ public class UserEntity {
     private String password;
     private double balance;
 
-
+    @ManyToMany
+    @JoinTable(
+            name="friend",
+            joinColumns = @JoinColumn(name="user_iduser"),
+            inverseJoinColumns = @JoinColumn(name="user_iduser1")
+    )
+    private List<UserEntity> friend;
 }
