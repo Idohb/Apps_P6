@@ -5,6 +5,7 @@ import java.util.Date;
 
 @Data
 public class Transaction {
+    private Long idTransaction;
     private String description;
     private double amountTransaction;
     private Date timeTransaction;
