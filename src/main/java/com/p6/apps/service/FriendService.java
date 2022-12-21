@@ -15,9 +15,9 @@ public class FriendService {
     public Long addFriend(Long lCreditor, Long lDebtor) {
         List<UserEntity> userEntityList;
         UserEntity usrCreditor = userRepository.findById(lCreditor).orElseThrow( () -> new NoSuchElementException("") );
-        UserEntity usrDebdtor = userRepository.findById(lDebtor).orElseThrow( () -> new NoSuchElementException("") );
+        UserEntity usrDebtor = userRepository.findById(lDebtor).orElseThrow( () -> new NoSuchElementException("") );
         userEntityList = usrCreditor.getFriend();
-        userEntityList.add(usrDebdtor);
+        userEntityList.add(usrDebtor);
         usrCreditor.setFriend(userEntityList);
         userRepository.save(usrCreditor);
         return 0L;
