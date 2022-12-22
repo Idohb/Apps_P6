@@ -1,11 +1,11 @@
 package com.p6.apps.controller;
+import com.p6.apps.controller.dto.transaction.TransactionRequest;
 import com.p6.apps.service.TransactionService;
 import com.p6.apps.service.data.Transaction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,5 +29,37 @@ public class TransactionController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("transaction")
+    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionRequest transactionRequest) {
+        return ResponseEntity.ok(transactionService.addTransaction(transactionRequest));
+    }
+
+    @PutMapping("/transaction/{id}")
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable("id") final Long id, @RequestBody TransactionRequest transactionRequest) {
+        try {
+            return ResponseEntity.ok(transactionService.updateTransaction(id, transactionRequest));
+        } catch (NoSuchElementException exception) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/transaction/{id}")
+    public ResponseEntity<?> deleteTransaction(@PathVariable("id") final Long id) {
+        try {
+            transactionService.deleteTransaction(id);
+            return ResponseEntity.ok().build();
+        } catch (NoSuchElementException exception) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/transactions")
+    public ResponseEntity<?> deleteTransaction() {
+        transactionService.deleteTransactions();
+        return ResponseEntity.noContent().build();
     }
 }
