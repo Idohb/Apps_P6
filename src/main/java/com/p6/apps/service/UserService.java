@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService extends Exception {
 
     private final UserConverter userConverter;
     private final UserRepository userRepository;
@@ -32,6 +33,8 @@ public class UserService {
     }
 
     public User addUser(RegisterRequest userRequest) {
+        //create an custom exception
+        if(!this.verifyEmailRedundant(userRequest)) { return new User();}
         UserEntity userEntity = new UserEntity(0L,
                 userRequest.getFirst_name(),
                 userRequest.getLast_name(),
@@ -43,4 +46,10 @@ public class UserService {
         userRepository.save(userEntity);
         return userConverter.mapperUser(userEntity);
     }
+
+    private boolean verifyEmailRedundant (RegisterRequest userRequest){
+            Optional<UserEntity> usrNonRedundant = userRepository.findByEmail(userRequest.getEmail());
+            return usrNonRedundant.isEmpty();
+    }
 }
+
