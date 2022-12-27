@@ -43,8 +43,8 @@ public class UserService extends Exception {
                 0,
                 new ArrayList<>()
         );
-        userRepository.save(userEntity);
-        return userConverter.mapperUser(userEntity);
+        UserEntity entity = userRepository.save(userEntity);
+        return userConverter.mapperUser(entity);
     }
 
     private boolean verifyEmailRedundant (RegisterRequest userRequest){
