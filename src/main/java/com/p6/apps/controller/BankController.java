@@ -1,11 +1,11 @@
 package com.p6.apps.controller;
+import com.p6.apps.controller.dto.bank.BankRequest;
 import com.p6.apps.service.BankService;
 import com.p6.apps.service.data.Bank;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,6 +29,38 @@ public class BankController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("bank")
+    public ResponseEntity<Bank> createBank(@RequestBody BankRequest bankRequest) {
+        return ResponseEntity.ok(bankService.addBank(bankRequest));
+    }
+
+    @PutMapping("/bank/{id}")
+    public ResponseEntity<Bank> updateBank(@PathVariable("id") final Long id, @RequestBody BankRequest bankRequest) {
+        try {
+            return ResponseEntity.ok(bankService.updateBank(id, bankRequest));
+        } catch (NoSuchElementException exception) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/bank/{id}")
+    public ResponseEntity<?> deleteBank(@PathVariable("id") final Long id) {
+        try {
+            bankService.deleteBank(id);
+            return ResponseEntity.ok().build();
+        } catch (NoSuchElementException exception) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/banks")
+    public ResponseEntity<?> deleteBanks() {
+        bankService.deleteBanks();
+        return ResponseEntity.noContent().build();
     }
 
 
