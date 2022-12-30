@@ -2,7 +2,9 @@ package com.p6.apps.service;
 import com.p6.apps.controller.dto.transaction.TransactionRequest;
 import com.p6.apps.mapper.TransactionConverter;
 import com.p6.apps.model.entity.TransactionEntity;
+import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.TransactionRepository;
+import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.Transaction;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,12 @@ public class TransactionService {
     private final TransactionConverter transactionConverter;
     private final TransactionRepository transactionRepository;
 
-    public TransactionService(TransactionConverter transactionConverter, TransactionRepository transactionRepository) {
+    private final UserRepository userRepository;
+
+    public TransactionService(TransactionConverter transactionConverter, TransactionRepository transactionRepository, UserRepository userRepository) {
         this.transactionConverter = transactionConverter;
         this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Transaction> getTransactions() {return transactionConverter.mapperTransaction(transactionRepository.findAll());}
@@ -25,12 +30,17 @@ public class TransactionService {
     //  N'oublie pas de faire une méthode de commission (ou de remanier la méthode addTransaction pour ça)
     //
     public Transaction addTransaction(TransactionRequest transactionRequest) {
+        UserEntity userCreditor = userRepository.findById(transactionRequest.getCreditor()).orElseThrow( () -> new NoSuchElementException("") );
+        UserEntity userDebtor = userRepository.findById(transactionRequest.getDebtor()).orElseThrow( () -> new NoSuchElementException("") );
         TransactionEntity transactionEntity = new TransactionEntity(0L,
                 transactionRequest.getDescription(),
                 transactionRequest.getAmountTransaction(),
                 transactionRequest.getTimeTransaction(),
-                transactionRequest.getCommission());
-                transactionEntity = transactionRepository.save(transactionEntity);
+                transactionRequest.getCommission(),
+                userCreditor,
+                userDebtor
+        );
+        transactionEntity = transactionRepository.save(transactionEntity);
         return transactionConverter.mapperTransaction(transactionEntity);
 
     }
