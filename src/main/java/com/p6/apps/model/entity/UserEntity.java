@@ -27,6 +27,12 @@ public class UserEntity {
     private String password;
     private double balance;
 
+    @OneToMany(mappedBy = "debtor")
+    private List<TransactionEntity> debtor;
+
+    @OneToMany(mappedBy = "creditor")
+    private List<TransactionEntity> creditor;
+
     @ManyToMany
     @JoinTable(
             name="friend",

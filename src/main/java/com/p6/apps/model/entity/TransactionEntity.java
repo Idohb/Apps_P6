@@ -23,4 +23,10 @@ public class TransactionEntity {
     private double amountTransaction;
     private Date timeTransaction;
     private double commission;
+
+    @ManyToOne
+    private UserEntity creditor;
+
+    @ManyToOne
+    private UserEntity debtor;
 }
