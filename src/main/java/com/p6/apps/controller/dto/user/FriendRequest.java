@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class FriendRequest {
+    private Long userCurrent;
     private String email;
 }

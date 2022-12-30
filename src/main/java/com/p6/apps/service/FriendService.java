@@ -1,4 +1,5 @@
 package com.p6.apps.service;
+import com.p6.apps.controller.dto.user.FriendRequest;
 import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +13,14 @@ public class FriendService {
     @Autowired
     UserRepository userRepository;
 
-    public Long addFriend(Long lCreditor, Long lDebtor) {
+    public Long addFriend(FriendRequest friendRequest) {
         List<UserEntity> userEntityList;
-        UserEntity usrCreditor = userRepository.findById(lCreditor).orElseThrow( () -> new NoSuchElementException("") );
-        UserEntity usrDebtor = userRepository.findById(lDebtor).orElseThrow( () -> new NoSuchElementException("") );
-        userEntityList = usrCreditor.getFriend();
-        userEntityList.add(usrDebtor);
-        usrCreditor.setFriend(userEntityList);
-        userRepository.save(usrCreditor);
+        UserEntity userCurrent = userRepository.findById(friendRequest.getUserCurrent()).orElseThrow( () -> new NoSuchElementException("") );
+        UserEntity userFriend = userRepository.findByEmail(friendRequest.getEmail()).orElseThrow( () -> new NoSuchElementException("") );
+        userEntityList = userCurrent.getFriend();
+        userEntityList.add(userFriend);
+        userCurrent.setFriend(userEntityList);
+        userRepository.save(userFriend);
         return 0L;
     }
 }
