@@ -48,18 +48,18 @@ CREATE TABLE IF NOT EXISTS `dbp6`.`transaction` (
   `amount_transaction` DOUBLE NOT NULL,
   `time_transaction` DATETIME NOT NULL,
   `commission` DOUBLE ZEROFILL NOT NULL,
-  `creditor_id` INT NOT NULL,
-  `debtor_id` INT NOT NULL,
+  `creditor` INT NOT NULL,
+  `debtor` INT NOT NULL,
   PRIMARY KEY (`id_transaction`),
-  INDEX `fk_creditor_id_user_idx` (`creditor_id` ASC) VISIBLE,
-  INDEX `fk_debtor_id_user_idx` (`debtor_id` ASC) VISIBLE,
-  CONSTRAINT `fk_creditor_id_user`
-    FOREIGN KEY (`creditor_id`)
+  INDEX `fk_creditor_user_idx` (`creditor` ASC) VISIBLE,
+  INDEX `fk_debtor_user_idx` (`debtor` ASC) VISIBLE,
+  CONSTRAINT `fk_creditor_user`
+    FOREIGN KEY (`creditor`)
     REFERENCES `dbp6`.`user` (`id_user`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_debtor_id_user`
-    FOREIGN KEY (`debtor_id`)
+  CONSTRAINT `fk_debtor_user`
+    FOREIGN KEY (`debtor`)
     REFERENCES `dbp6`.`user` (`id_user`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

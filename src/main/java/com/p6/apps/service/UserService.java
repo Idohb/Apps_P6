@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class UserService extends Exception {
+public class UserService {
 
     private final UserConverter userConverter;
     private final UserRepository userRepository;

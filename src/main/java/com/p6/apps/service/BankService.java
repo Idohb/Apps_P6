@@ -25,7 +25,7 @@ public class BankService {
     public Bank addBank(BankRequest bankRequest) {
         BankEntity bankEntity = new BankEntity(0L,
                 bankRequest.getIban(),
-                0);
+                bankRequest.getAmountBank());
         bankEntity = bankRepository.save(bankEntity);
         return bankConverter.mapperBank(bankEntity);
 

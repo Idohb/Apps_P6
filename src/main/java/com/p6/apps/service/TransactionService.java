@@ -8,6 +8,7 @@ import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.Transaction;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -30,19 +31,25 @@ public class TransactionService {
     //  N'oublie pas de faire une méthode de commission (ou de remanier la méthode addTransaction pour ça)
     //
     public Transaction addTransaction(TransactionRequest transactionRequest) {
-        UserEntity userCreditor = userRepository.findById(transactionRequest.getCreditor()).orElseThrow( () -> new NoSuchElementException("") );
-        UserEntity userDebtor = userRepository.findById(transactionRequest.getDebtor()).orElseThrow( () -> new NoSuchElementException("") );
-        TransactionEntity transactionEntity = new TransactionEntity(0L,
+        UserEntity userCreditor = userRepository.findById(/*transactionRequest.getCreditor()*/1L).orElseThrow( () -> new NoSuchElementException("") );
+        UserEntity userDebtor = userRepository.findById(/*transactionRequest.getDebtor()*/2L).orElseThrow( () -> new NoSuchElementException("") );
+
+        TransactionEntity transactionEntity = this.createTransaction(transactionRequest, userCreditor, userDebtor);
+        transactionEntity = transactionRepository.save(transactionEntity);
+        return transactionConverter.mapperTransaction(transactionEntity);
+
+    }
+
+    private TransactionEntity createTransaction(TransactionRequest transactionRequest, UserEntity userCreditor, UserEntity userDebtor) {
+        LocalDateTime date = LocalDateTime.now();
+        return new TransactionEntity(0L,
                 transactionRequest.getDescription(),
                 transactionRequest.getAmountTransaction(),
-                transactionRequest.getTimeTransaction(),
+                date,
                 transactionRequest.getCommission(),
                 userCreditor,
                 userDebtor
         );
-        transactionEntity = transactionRepository.save(transactionEntity);
-        return transactionConverter.mapperTransaction(transactionEntity);
-
     }
 
     public Transaction updateTransaction(final Long id, TransactionRequest transactionRequest) {
