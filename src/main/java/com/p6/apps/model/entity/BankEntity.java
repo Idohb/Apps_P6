@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Builder
 @NoArgsConstructor
@@ -20,4 +22,11 @@ public class BankEntity {
 
     private String iban;
     private double amountBank;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserEntity user;
+
+    @OneToMany(mappedBy = "idBankOperation")
+    private List<BankOperationEntity> bankOperation;
 }

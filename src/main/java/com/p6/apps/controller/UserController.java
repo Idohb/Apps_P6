@@ -5,7 +5,6 @@ import com.p6.apps.controller.dto.user.RegisterRequest;
 import com.p6.apps.controller.dto.user.UserRequest;
 import com.p6.apps.service.UserService;
 import com.p6.apps.service.data.User;
-import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -88,16 +87,8 @@ public class UserController {
         }
     }
 
-//    @GetMapping("friends")
-//    public ResponseEntity<List<User>> getFriend() {
-//        try {
-//            return ResponseEntity.ok(friendService.getFriends());
-//        } catch (NoSuchElementException e) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
     @GetMapping("friend/{id}")
-    public ResponseEntity<List<User>> getFriend(@PathParam("id") final Long idUser) {
+    public ResponseEntity<List<User>> getFriend(@PathVariable("id") final Long idUser) {
         try {
             return ResponseEntity.ok(friendService.getFriends(idUser));
         } catch (NoSuchElementException e) {

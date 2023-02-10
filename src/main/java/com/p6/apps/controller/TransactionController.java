@@ -36,6 +36,11 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.addTransaction(transactionRequest));
     }
 
+    @PostMapping("balance")
+    public ResponseEntity<Transaction> applyChangeBalance(@RequestBody TransactionRequest transactionRequest) {
+        return ResponseEntity.ok(transactionService.makeTransaction(transactionRequest));
+    }
+
     @PutMapping("/transaction/{id}")
     public ResponseEntity<Transaction> updateTransaction(@PathVariable("id") final Long id, @RequestBody TransactionRequest transactionRequest) {
         try {

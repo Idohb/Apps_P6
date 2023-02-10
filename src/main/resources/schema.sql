@@ -109,6 +109,30 @@ CREATE TABLE IF NOT EXISTS `dbp6`.`friend` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `dbp6`.`bank_operation`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `dbp6`.`bank_operation` ;
+
+CREATE TABLE IF NOT EXISTS `dbp6`.`bank_operation` (
+    `date` DATETIME NOT NULL,
+    `amount` DOUBLE ZEROFILL NOT NULL,
+    `user_id_user` INT NOT NULL,
+    `bank_id_bank` INT NOT NULL,
+    PRIMARY KEY (`user_id_user`, `bank_id_bank`),
+    INDEX `fk_user_has_bank_bank1_idx` (`bank_id_bank` ASC) INVISIBLE,
+    INDEX `fk_user_has_bank_user1_idx` (`user_id_user` ASC) VISIBLE,
+    CONSTRAINT `fk_user_has_bank_user1`
+       FOREIGN KEY (`user_id_user`)
+           REFERENCES `dbp6`.`user` (`id_user`)
+           ON DELETE NO ACTION
+           ON UPDATE NO ACTION,
+    CONSTRAINT `fk_user_has_bank_bank1`
+       FOREIGN KEY (`bank_id_bank`)
+           REFERENCES `dbp6`.`bank` (`id_bank`)
+           ON DELETE NO ACTION
+           ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

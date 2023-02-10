@@ -4,6 +4,7 @@ import com.p6.apps.mapper.UserConverter;
 import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class FriendService {
     @Autowired
     UserConverter userConverter;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public User addFriend(FriendRequest friendRequest) {
         if(!this.verifyFriendRedundant(friendRequest)) { return new User();}
         List<UserEntity> userEntityList;
@@ -28,7 +32,8 @@ public class FriendService {
         userEntityList.add(userFriend);
         userCurrent.setFriend(userEntityList);
         UserEntity userEntity = userRepository.save(userFriend);
-        return userConverter.mapperUser(userEntity);
+        return modelMapper.map(userEntity, User.class);
+//        return userConverter.mapperUser(userEntity);
     }
 
     public List<User> getFriends(Long idUser) {

@@ -37,4 +37,18 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name="user_iduser1")
     )
     private List<UserEntity> friend;
+
+    @OneToMany(mappedBy = "idBank")
+    private List<BankEntity> ownBank;
+
+/*    @ManyToMany
+    @JoinTable(
+            name="bank_operation",
+            joinColumns = @JoinColumn(name="user_id_user"),
+            inverseJoinColumns = @JoinColumn(name="bank_id_bank")
+    )
+    private List<BankEntity> bankOperation;*/
+
+    @OneToMany(mappedBy = "idBankOperation")
+    private List<BankOperationEntity> userOperation;
 }

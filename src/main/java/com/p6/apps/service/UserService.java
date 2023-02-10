@@ -6,31 +6,37 @@ import com.p6.apps.mapper.UserConverter;
 import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
     private final UserConverter userConverter;
     private final UserRepository userRepository;
-
-    public UserService(UserConverter userConverter, UserRepository userRepository) {
+    private ModelMapper modelMapper;
+    public UserService(UserConverter userConverter, UserRepository userRepository, ModelMapper modelMapper) {
         this.userConverter = userConverter;
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<User> getLogins() {
-        return userConverter.mapperUser(userRepository.findAll());
+        List<UserEntity> userEntityList = userRepository.findAll();
+        return userEntityList.stream()
+                .map(entity -> modelMapper.map(entity, User.class))
+                .collect(Collectors.toList());
     }
 
     public User getLogin(final Long id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Id " + id + " not found"));
-        return userConverter.mapperUser(userEntity);
+        return modelMapper.map(userEntity, User.class);
     }
 
     public User addUser(RegisterRequest userRequest) {
@@ -44,17 +50,23 @@ public class UserService {
                 0,
                 new ArrayList<>(), // debtor
                 new ArrayList<>(), // creditor
-                new ArrayList<>() // friend
+                new ArrayList<>(), // friend
+                new ArrayList<>(),  // bank
+                new ArrayList<>() // bankOperation
         );
         UserEntity entity = userRepository.save(userEntity);
-        return userConverter.mapperUser(entity);
+        return modelMapper.map(entity, User.class);
     }
 
     public User updateUser(Long id, UserRequest userRequest) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Id " + id + " not found"));
         updateEntity(userEntity, userRequest);
         userEntity = userRepository.save(userEntity);
-        return userConverter.mapperUser(userEntity);
+        return modelMapper.map(
+                userEntity,
+                User.class
+        );
+//        return userConverter.mapperUser(userEntity);
     }
 
     private void updateEntity(UserEntity userEntity, UserRequest userRequest) {
