@@ -12,7 +12,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 @Service
@@ -36,7 +35,7 @@ public class BankOperationService {
         this.bankOperationRepository = bankOperationRepository;
     }
 
-    public Bank makeTransfer(BankOperationRequest bankOperationRequest) {
+    public void makeTransfer(BankOperationRequest bankOperationRequest) {
         LocalDateTime date = LocalDateTime.now();
         UserEntity userEntity = userRepository.findById(bankOperationRequest.getIdUser()).orElseThrow(() -> new NoSuchElementException("Id " + bankOperationRequest.getIdUser() + " not found"));
         BankEntity bankEntity = bankRepository.findById(bankOperationRequest.getIdBank()).orElseThrow(() -> new NoSuchElementException("Id " + bankOperationRequest.getIdBank() + " not found"));
@@ -47,7 +46,7 @@ public class BankOperationService {
                 bankEntity
         );
 
-        BankOperationEntity bankOperation = bankOperation = bankOperationRepository.save(bankOperationEntity);
+//        BankOperationEntity bankOperation = bankOperation = bankOperationRepository.save(bankOperationEntity);
 
 
     }

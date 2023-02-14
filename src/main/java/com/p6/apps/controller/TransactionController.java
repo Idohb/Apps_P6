@@ -31,6 +31,15 @@ public class TransactionController {
         }
     }
 
+    @GetMapping("transaction/{id}")
+    public ResponseEntity<List<Transaction>> getLogin(@PathVariable("id") final Long id) {
+        try {
+            return ResponseEntity.ok(transactionService.getTransaction(id));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("transaction")
     public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionRequest transactionRequest) {
         return ResponseEntity.ok(transactionService.addTransaction(transactionRequest));

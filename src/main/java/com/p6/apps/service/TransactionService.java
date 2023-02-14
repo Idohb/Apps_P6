@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class TransactionService {
     private final TransactionConverter transactionConverter;
     private final TransactionRepository transactionRepository;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
     public TransactionService(TransactionConverter transactionConverter, TransactionRepository transactionRepository, UserRepository userRepository,ModelMapper modelMapper) {
@@ -35,14 +35,15 @@ public class TransactionService {
                 .collect(Collectors.toList());
     }
 
-    public Transaction getTransaction(Long id) {
-        TransactionEntity transactionEntity = transactionRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Id " + id + " not found"));
-        return modelMapper.map(transactionEntity, Transaction.class);
+    //
+    public List<Transaction> getTransaction(final Long id) {
+        UserEntity userCreditor = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Id " + id + " not found"));
+        List<TransactionEntity> transactionEntity = transactionRepository.findByCreditor(userCreditor).orElseThrow(() -> new NoSuchElementException("creditor " + userCreditor.getIdUser() + " not found"));
+        return transactionEntity.stream()
+                .map(entity -> modelMapper.map(entity,Transaction.class))
+                .collect(Collectors.toList());
     }
 
-    //
-    //  N'oublie pas de faire une méthode de commission (ou de remanier la méthode addTransaction pour ça)
-    //
     public Transaction addTransaction(TransactionRequest transactionRequest) {
         UserEntity userCreditor = userRepository.findById(transactionRequest.getCreditor()).orElseThrow( () -> new NoSuchElementException("") );
         UserEntity userDebtor = userRepository.findById(transactionRequest.getDebtor()).orElseThrow( () -> new NoSuchElementException("") );
@@ -50,8 +51,6 @@ public class TransactionService {
         TransactionEntity transactionEntity = this.createTransaction(transactionRequest, userCreditor, userDebtor);
         transactionEntity = transactionRepository.save(transactionEntity);
         return modelMapper.map(transactionEntity, Transaction.class);
-//        return transactionConverter.mapperTransaction(transactionEntity);
-
     }
 
     private TransactionEntity createTransaction(TransactionRequest transactionRequest, UserEntity userCreditor, UserEntity userDebtor) {
@@ -60,7 +59,7 @@ public class TransactionService {
                 transactionRequest.getDescription(),
                 transactionRequest.getAmountTransaction(),
                 date,
-                transactionRequest.getCommission(),
+                this.calculateCommission(transactionRequest.getAmountTransaction()),
                 userCreditor,
                 userDebtor
         );
@@ -106,14 +105,13 @@ public class TransactionService {
 
         UserEntity userCreditor = changeUserBalance(
                 userRepository.findById(transactionRequest.getCreditor()).orElseThrow(() -> new NoSuchElementException("Id " + transactionRequest.getCreditor() + " not found")),
-                - transactionRequest.getAmountTransaction()
+                - transactionRequest.getAmountTransaction() - this.calculateCommission(transactionRequest.getAmountTransaction())
         );
         UserEntity userDebtor = changeUserBalance(
                 userRepository.findById(transactionRequest.getDebtor()).orElseThrow(() -> new NoSuchElementException("Id " + transactionRequest.getDebtor() + " not found")),
                 transactionRequest.getAmountTransaction()
         );
-
-        return this.createTransaction(transactionRequest, userCreditor,userDebtor);
+        return this.createTransaction(transactionRequest, userCreditor, userDebtor);
 
     }
 
@@ -121,6 +119,10 @@ public class TransactionService {
         double balance = userEntity.getBalance();
         userEntity.setBalance(balance + amount);
         return userRepository.save(userEntity);
+    }
+
+    private double calculateCommission(double amount) {
+        return amount * 5 /100;
     }
 
 }
