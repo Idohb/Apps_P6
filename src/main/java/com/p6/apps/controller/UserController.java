@@ -78,10 +78,19 @@ public class UserController {
         return ResponseEntity.ok(userService.addUser(user));
     }
 
-    @PostMapping("friend")
-    public ResponseEntity<Long> addFriend(@RequestBody FriendRequest friendRequest) {
+    @PostMapping("friends")
+    public ResponseEntity<User> addFriend(@RequestBody FriendRequest friendRequest) {
         try {
             return ResponseEntity.ok(friendService.addFriend(friendRequest));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("friend/{id}")
+    public ResponseEntity<List<User>> getFriend(@PathVariable("id") final Long idUser) {
+        try {
+            return ResponseEntity.ok(friendService.getFriends(idUser));
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }

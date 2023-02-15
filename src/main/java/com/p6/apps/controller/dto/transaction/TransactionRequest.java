@@ -3,7 +3,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,7 +11,7 @@ import java.util.Date;
 public class TransactionRequest {
     private String description;
     private double amountTransaction;
-    private Date timeTransaction;
+    private LocalDateTime timeTransaction;
     private double commission;
     private Long creditor;
     private Long debtor;

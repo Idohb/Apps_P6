@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 public class BankRequest {
     private String iban;
     private double amountBank;
+    private Long user;
 }
