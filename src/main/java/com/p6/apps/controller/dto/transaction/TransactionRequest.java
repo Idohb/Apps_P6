@@ -13,6 +13,7 @@ public class TransactionRequest {
     private double amountTransaction;
     private LocalDateTime timeTransaction;
     private double commission;
+    private String type;
     private Long creditor;
     private Long debtor;
 }

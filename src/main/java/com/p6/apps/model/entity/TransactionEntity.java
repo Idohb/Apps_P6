@@ -20,6 +20,7 @@ public class TransactionEntity {
     private double amountTransaction;
     private LocalDateTime timeTransaction;
     private double commission;
+    private String type;
 
     @ManyToOne
     @JoinColumn(name="creditor")

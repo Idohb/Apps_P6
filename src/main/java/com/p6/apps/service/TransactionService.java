@@ -48,6 +48,10 @@ public class TransactionService {
         UserEntity userCreditor = userRepository.findById(transactionRequest.getCreditor()).orElseThrow( () -> new NoSuchElementException("") );
         UserEntity userDebtor = userRepository.findById(transactionRequest.getDebtor()).orElseThrow( () -> new NoSuchElementException("") );
 
+//        if (transactionRequest.getAmountTransaction() > userCreditor.getBalance()) {
+//            return new String("amount request is too high");
+//        }
+
         TransactionEntity transactionEntity = this.createTransaction(transactionRequest, userCreditor, userDebtor);
         transactionEntity = transactionRepository.save(transactionEntity);
         return modelMapper.map(transactionEntity, Transaction.class);
@@ -60,6 +64,7 @@ public class TransactionService {
                 transactionRequest.getAmountTransaction(),
                 date,
                 this.calculateCommission(transactionRequest.getAmountTransaction()),
+                transactionRequest.getType(),
                 userCreditor,
                 userDebtor
         );
