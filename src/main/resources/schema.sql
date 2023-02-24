@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `dbp6`.`transaction` (
   `commission` DOUBLE ZEROFILL NOT NULL,
   `creditor` INT NOT NULL,
   `debtor` INT NOT NULL,
-  `type` VARCHAR(45) NOT NULL,
+  `type` ENUM('payment', 'debit', 'credit'),
   PRIMARY KEY (`id_transaction`),
   INDEX `fk_creditor_user_idx` (`creditor` ASC) VISIBLE,
   INDEX `fk_debtor_user_idx` (`debtor` ASC) VISIBLE,

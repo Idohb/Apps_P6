@@ -1,7 +1,9 @@
 package com.p6.apps.controller;
 import com.p6.apps.controller.dto.transaction.TransactionRequest;
+import com.p6.apps.exception.TestException;
 import com.p6.apps.service.TransactionService;
 import com.p6.apps.service.data.Transaction;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +48,7 @@ public class TransactionController {
     }
 
     @PostMapping("balance")
-    public ResponseEntity<Transaction> applyChangeBalance(@RequestBody TransactionRequest transactionRequest) {
+    public ResponseEntity<Transaction> applyChangeBalance(@Valid @RequestBody TransactionRequest transactionRequest) throws TestException {
         return ResponseEntity.ok(transactionService.makeTransaction(transactionRequest));
     }
 

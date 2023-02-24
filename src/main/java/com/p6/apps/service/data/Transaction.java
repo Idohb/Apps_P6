@@ -11,4 +11,6 @@ public class Transaction {
     private double amountTransaction;
     private LocalDateTime timeTransaction;
     private double commission;
+
+    private int type;
 }

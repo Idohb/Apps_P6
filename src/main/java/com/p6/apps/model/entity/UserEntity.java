@@ -1,6 +1,7 @@
 package com.p6.apps.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class UserEntity {
     private String last_name;
     private String email;
     private String password;
+    @Min(value = 0)
     private double balance;
 
     @OneToMany(mappedBy = "debtor")

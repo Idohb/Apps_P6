@@ -1,5 +1,6 @@
 package com.p6.apps.service;
 import com.p6.apps.controller.dto.transaction.TransactionRequest;
+import com.p6.apps.exception.TestException;
 import com.p6.apps.mapper.TransactionConverter;
 import com.p6.apps.model.entity.TransactionEntity;
 import com.p6.apps.model.entity.UserEntity;
@@ -101,12 +102,12 @@ public class TransactionService {
 
     }
 
-    public Transaction makeTransaction(TransactionRequest transactionRequest) {
+    public Transaction makeTransaction(TransactionRequest transactionRequest) throws TestException {
         TransactionEntity transactionEntity = calculateBalance(transactionRequest);
         TransactionEntity transactionEntity1 = transactionRepository.save(transactionEntity);
         return transactionConverter.mapperTransaction(transactionEntity1);
     }
-    private TransactionEntity calculateBalance(TransactionRequest transactionRequest) {
+    private TransactionEntity calculateBalance(TransactionRequest transactionRequest) throws TestException {
 
         UserEntity userCreditor = changeUserBalance(
                 userRepository.findById(transactionRequest.getCreditor()).orElseThrow(() -> new NoSuchElementException("Id " + transactionRequest.getCreditor() + " not found")),
@@ -120,8 +121,9 @@ public class TransactionService {
 
     }
 
-    private UserEntity changeUserBalance(UserEntity userEntity, double amount) {
+    private UserEntity changeUserBalance(UserEntity userEntity, double amount) throws TestException {
         double balance = userEntity.getBalance();
+        if (balance > amount) throw new TestException("Requête impossible : montant est trop haut. Veuillez mettre de l'argent sur votre solde.");
         userEntity.setBalance(balance + amount);
         return userRepository.save(userEntity);
     }
