@@ -2,6 +2,7 @@ package com.p6.apps.controller;
 import com.p6.apps.controller.dto.bank.BankRequest;
 import com.p6.apps.service.BankService;
 import com.p6.apps.service.data.Bank;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,12 @@ public class BankController {
     }
 
     @PostMapping("bank")
-    public ResponseEntity<Bank> createBank(@RequestBody BankRequest bankRequest) {
+    public ResponseEntity<Bank> createBank(@Valid @RequestBody BankRequest bankRequest) {
         return ResponseEntity.ok(bankService.addBank(bankRequest));
     }
 
     @PutMapping("/bank/{id}")
-    public ResponseEntity<Bank> updateBank(@PathVariable("id") final Long id, @RequestBody BankRequest bankRequest) {
+    public ResponseEntity<Bank> updateBank(@PathVariable("id") final Long id, @Valid @RequestBody BankRequest bankRequest) {
         try {
             return ResponseEntity.ok(bankService.updateBank(id, bankRequest));
         } catch (NoSuchElementException exception) {

@@ -1,6 +1,6 @@
 package com.p6.apps.controller;
 import com.p6.apps.controller.dto.transaction.TransactionRequest;
-import com.p6.apps.exception.TestException;
+import com.p6.apps.exception.InsuficientBalanceException;
 import com.p6.apps.service.TransactionService;
 import com.p6.apps.service.data.Transaction;
 import jakarta.validation.Valid;
@@ -43,17 +43,17 @@ public class TransactionController {
     }
 
     @PostMapping("transaction")
-    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionRequest transactionRequest) {
+    public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody TransactionRequest transactionRequest) {
         return ResponseEntity.ok(transactionService.addTransaction(transactionRequest));
     }
 
     @PostMapping("balance")
-    public ResponseEntity<Transaction> applyChangeBalance(@Valid @RequestBody TransactionRequest transactionRequest) throws TestException {
+    public ResponseEntity<Transaction> applyChangeBalance(@Valid @RequestBody TransactionRequest transactionRequest) throws InsuficientBalanceException {
         return ResponseEntity.ok(transactionService.makeTransaction(transactionRequest));
     }
 
     @PutMapping("/transaction/{id}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable("id") final Long id, @RequestBody TransactionRequest transactionRequest) {
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable("id") final Long id, @Valid @RequestBody TransactionRequest transactionRequest) {
         try {
             return ResponseEntity.ok(transactionService.updateTransaction(id, transactionRequest));
         } catch (NoSuchElementException exception) {

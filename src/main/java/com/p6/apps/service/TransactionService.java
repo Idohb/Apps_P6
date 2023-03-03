@@ -1,12 +1,13 @@
 package com.p6.apps.service;
 import com.p6.apps.controller.dto.transaction.TransactionRequest;
-import com.p6.apps.exception.TestException;
+import com.p6.apps.exception.InsuficientBalanceException;
 import com.p6.apps.mapper.TransactionConverter;
 import com.p6.apps.model.entity.TransactionEntity;
 import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.TransactionRepository;
 import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.Transaction;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -102,30 +103,22 @@ public class TransactionService {
 
     }
 
-    public Transaction makeTransaction(TransactionRequest transactionRequest) throws TestException {
-        TransactionEntity transactionEntity = calculateBalance(transactionRequest);
-        TransactionEntity transactionEntity1 = transactionRepository.save(transactionEntity);
-        return transactionConverter.mapperTransaction(transactionEntity1);
-    }
-    private TransactionEntity calculateBalance(TransactionRequest transactionRequest) throws TestException {
+    @Transactional
+    public Transaction makeTransaction(TransactionRequest transactionRequest) throws InsuficientBalanceException {
+        UserEntity creditor = userRepository.findById(transactionRequest.getCreditor()).orElseThrow(() -> new NoSuchElementException("Id " + transactionRequest.getCreditor() + " not found"));
+        if (creditor.getBalance() < transactionRequest.getAmountTransaction())
+            throw new InsuficientBalanceException("Requête impossible : le montant est trop haut. Veuillez mettre de l'argent sur votre solde.");
 
-        UserEntity userCreditor = changeUserBalance(
-                userRepository.findById(transactionRequest.getCreditor()).orElseThrow(() -> new NoSuchElementException("Id " + transactionRequest.getCreditor() + " not found")),
-                - transactionRequest.getAmountTransaction() - this.calculateCommission(transactionRequest.getAmountTransaction())
-        );
-        UserEntity userDebtor = changeUserBalance(
-                userRepository.findById(transactionRequest.getDebtor()).orElseThrow(() -> new NoSuchElementException("Id " + transactionRequest.getDebtor() + " not found")),
-                transactionRequest.getAmountTransaction()
-        );
-        return this.createTransaction(transactionRequest, userCreditor, userDebtor);
+        UserEntity debtor = userRepository.findById(transactionRequest.getDebtor()).orElseThrow(() -> new NoSuchElementException("Id " + transactionRequest.getDebtor() + " not found"));
+        double amountTotal = transactionRequest.getAmountTransaction() - this.calculateCommission(transactionRequest.getAmountTransaction());
+        creditor.setBalance(creditor.getBalance()- amountTotal);
+        debtor.setBalance(debtor.getBalance()+ transactionRequest.getAmountTransaction());
+        userRepository.save(creditor);
+        userRepository.save(debtor);
 
-    }
-
-    private UserEntity changeUserBalance(UserEntity userEntity, double amount) throws TestException {
-        double balance = userEntity.getBalance();
-        if (balance > amount) throw new TestException("Requête impossible : montant est trop haut. Veuillez mettre de l'argent sur votre solde.");
-        userEntity.setBalance(balance + amount);
-        return userRepository.save(userEntity);
+        TransactionEntity transactionEntity = createTransaction(transactionRequest, creditor, debtor);
+        transactionEntity = transactionRepository.save(transactionEntity);
+        return transactionConverter.mapperTransaction(transactionEntity);
     }
 
     private double calculateCommission(double amount) {

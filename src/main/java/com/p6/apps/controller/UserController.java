@@ -5,6 +5,7 @@ import com.p6.apps.controller.dto.user.RegisterRequest;
 import com.p6.apps.controller.dto.user.UserRequest;
 import com.p6.apps.service.UserService;
 import com.p6.apps.service.data.User;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<User> updateLogin(@PathVariable("id") final Long id, @RequestBody UserRequest user) {
+    public ResponseEntity<User> updateLogin(@PathVariable("id") final Long id, @Valid @RequestBody UserRequest user) {
         try {
             return ResponseEntity.ok(userService.updateUser(id, user));
         } catch (NoSuchElementException exception) {
@@ -74,12 +75,12 @@ public class UserController {
     }
 
     @PostMapping("signon")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest user) {
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest user) {
         return ResponseEntity.ok(userService.addUser(user));
     }
 
     @PostMapping("friends")
-    public ResponseEntity<User> addFriend(@RequestBody FriendRequest friendRequest) {
+    public ResponseEntity<User> addFriend(@Valid @RequestBody FriendRequest friendRequest) {
         try {
             return ResponseEntity.ok(friendService.addFriend(friendRequest));
         } catch (NoSuchElementException e) {
