@@ -17,13 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class BankService {
 
-    private final BankConverter bankConverter;
     private final BankRepository bankRepository;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
     public BankService(BankConverter bankConverter, BankRepository bankRepository, UserRepository userRepository, ModelMapper modelMapper) {
-        this.bankConverter = bankConverter;
         this.bankRepository = bankRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
