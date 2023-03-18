@@ -32,6 +32,15 @@ public class BankController {
         }
     }
 
+    @GetMapping("bank/{id}")
+    public ResponseEntity<Bank> getBank(@PathVariable("id") final Long id) {
+        try {
+            return ResponseEntity.ok(bankService.getBank(id));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("bank")
     public ResponseEntity<Bank> createBank(@Valid @RequestBody BankRequest bankRequest) {
         return ResponseEntity.ok(bankService.addBank(bankRequest));

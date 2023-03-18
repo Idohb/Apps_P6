@@ -1,6 +1,6 @@
 package com.p6.apps.controller;
 import com.p6.apps.controller.dto.transaction.TransactionRequest;
-import com.p6.apps.exception.InsuficientBalanceException;
+import com.p6.apps.exception.InsufficientBalanceException;
 import com.p6.apps.service.TransactionService;
 import com.p6.apps.service.data.Transaction;
 import jakarta.validation.Valid;
@@ -48,7 +48,7 @@ public class TransactionController {
     }
 
     @PostMapping("balance")
-    public ResponseEntity<Transaction> applyChangeBalance(@Valid @RequestBody TransactionRequest transactionRequest) throws InsuficientBalanceException {
+    public ResponseEntity<Transaction> applyChangeBalance(@Valid @RequestBody TransactionRequest transactionRequest) throws InsufficientBalanceException {
         return ResponseEntity.ok(transactionService.makeTransaction(transactionRequest));
     }
 

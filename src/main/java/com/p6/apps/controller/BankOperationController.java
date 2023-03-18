@@ -2,7 +2,8 @@ package com.p6.apps.controller;
 
 import com.p6.apps.controller.dto.bank.BankOperationRequest;
 import com.p6.apps.service.BankOperationService;
-import com.p6.apps.service.data.Bank;
+import com.p6.apps.service.data.BankOperation;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,13 @@ public class BankOperationController {
         this.bankOperationService = bankOperationService;
     }
 
-    @PostMapping("bankCredit")
-    public ResponseEntity<Bank> makeCredit(@RequestBody BankOperationRequest bankOperationRequest) {
-        return ResponseEntity.ok(bankOperationService.makeTransfer(bankOperationRequest));
+    @PostMapping("deposit")
+    public ResponseEntity<BankOperation> makeDeposit(@Valid @RequestBody BankOperationRequest bankOperationRequest) {
+        return ResponseEntity.ok(bankOperationService.makeDeposit(bankOperationRequest));
     }
 
-    @PostMapping("bankDebit")
-    public ResponseEntity<Bank> makeDebit(@RequestBody BankOperationRequest bankOperationRequest) {
-        return ResponseEntity.ok(bankOperationService.makeTransfer(bankOperationRequest));
+    @PostMapping("withdraw")
+    public ResponseEntity<BankOperation> withdrawMoney(@Valid @RequestBody BankOperationRequest bankOperationRequest) {
+        return ResponseEntity.ok(bankOperationService.withdrawMoney(bankOperationRequest));
     }
 }

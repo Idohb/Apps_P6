@@ -1,6 +1,5 @@
 package com.p6.apps.service;
 import com.p6.apps.controller.dto.bank.BankRequest;
-import com.p6.apps.mapper.BankConverter;
 import com.p6.apps.model.entity.BankEntity;
 import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.BankRepository;
@@ -21,7 +20,7 @@ public class BankService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
-    public BankService(BankConverter bankConverter, BankRepository bankRepository, UserRepository userRepository, ModelMapper modelMapper) {
+    public BankService(BankRepository bankRepository, UserRepository userRepository, ModelMapper modelMapper) {
         this.bankRepository = bankRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
@@ -32,7 +31,6 @@ public class BankService {
         return bankEntityList.stream()
                 .map(entity -> modelMapper.map(entity, Bank.class))
                 .collect(Collectors.toList());
-//        return bankConverter.mapperBank(bankRepository.findAll());
     }
 
     public Bank addBank(BankRequest bankRequest) {
@@ -58,7 +56,6 @@ public class BankService {
                 bankEntity,
                 Bank.class
         );
-//        return bankConverter.mapperBank(bankEntity);
 
     }
 
@@ -75,5 +72,13 @@ public class BankService {
         if (bankRequest.getIban() != null)
             bankEntity.setIban(bankRequest.getIban());
 
+        bankEntity.setAmountBank(bankRequest.getAmountBank());
+
+    }
+
+    public Bank getBank(final Long id) {
+        BankEntity bankEntity = bankRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Id " + id + " bank not found"));
+        return modelMapper.map(bankEntity, Bank.class);
     }
 }

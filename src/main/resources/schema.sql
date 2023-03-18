@@ -113,9 +113,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `dbp6`.`bank_operation`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbp6`.`bank_operation` ;
+DROP TABLE IF EXISTS `dbp6`.`bankoperation` ;
 
-CREATE TABLE IF NOT EXISTS `dbp6`.`bank_operation` (
+CREATE TABLE IF NOT EXISTS `dbp6`.`bankoperation` (
     `date` DATETIME NOT NULL,
     `amount` DOUBLE ZEROFILL NOT NULL,
     `user_id_user` INT NOT NULL,

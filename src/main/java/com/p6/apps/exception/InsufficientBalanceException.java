@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-public class InsuficientBalanceException extends RuntimeException {
+public class InsufficientBalanceException extends RuntimeException {
 
-    public InsuficientBalanceException(String s) {
+    public InsufficientBalanceException(String s) {
         super(s);
     }
 }
