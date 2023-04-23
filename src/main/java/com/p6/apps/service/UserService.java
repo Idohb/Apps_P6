@@ -2,7 +2,6 @@ package com.p6.apps.service;
 
 import com.p6.apps.controller.dto.user.RegisterRequest;
 import com.p6.apps.controller.dto.user.UserRequest;
-import com.p6.apps.mapper.UserConverter;
 import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.User;
@@ -17,12 +16,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-
-    private final UserConverter userConverter;
     private final UserRepository userRepository;
-    private ModelMapper modelMapper;
-    public UserService(UserConverter userConverter, UserRepository userRepository, ModelMapper modelMapper) {
-        this.userConverter = userConverter;
+    private final ModelMapper modelMapper;
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
@@ -66,7 +62,6 @@ public class UserService {
                 userEntity,
                 User.class
         );
-//        return userConverter.mapperUser(userEntity);
     }
 
     private void updateEntity(UserEntity userEntity, UserRequest userRequest) {
@@ -82,7 +77,6 @@ public class UserService {
 
         if (userRequest.getPassword() != null)
             userEntity.setPassword(userRequest.getPassword());
-
     }
 
     public void deleteUser(final Long id) {
