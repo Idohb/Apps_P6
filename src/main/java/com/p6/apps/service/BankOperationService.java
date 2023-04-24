@@ -3,6 +3,7 @@ package com.p6.apps.service;
 import com.p6.apps.controller.dto.bank.BankOperationRequest;
 import com.p6.apps.model.entity.BankEntity;
 import com.p6.apps.model.entity.BankOperationEntity;
+import com.p6.apps.model.entity.BankOperationKey;
 import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.BankOperationRepository;
 import com.p6.apps.model.repository.BankRepository;
@@ -41,12 +42,12 @@ public class BankOperationService {
         BankEntity bankEntity = bankRepository.findByUserAndIdBank(userEntity, bankOperationRequest.getIdBank())
                 .orElseThrow(() -> new NoSuchElementException("Bank not found"));
 
-        BankOperationEntity bankOperationEntity = new BankOperationEntity(0L,
-                date,
-                bankOperationRequest.getAmount(),
+        BankOperationEntity bankOperationEntity = new BankOperationEntity(new BankOperationKey(),
                 userEntity,
-                bankEntity
-        );
+                bankEntity,
+                date,
+                bankOperationRequest.getAmount()
+                );
 
         bankEntity.setAmountBank(bankEntity.getAmountBank() + bankOperationRequest.getAmount());
         bankRepository.save(bankEntity);
@@ -66,12 +67,12 @@ public class BankOperationService {
         BankEntity bankEntity = bankRepository.findByUserAndIdBank(userEntity, bankOperationRequest.getIdBank())
                 .orElseThrow(() -> new NoSuchElementException("Bank not found"));
 
-        BankOperationEntity bankOperationEntity = new BankOperationEntity(0L,
-                date,
-                bankOperationRequest.getAmount(),
+        BankOperationEntity bankOperationEntity = new BankOperationEntity(new BankOperationKey(),
                 userEntity,
-                bankEntity
-        );
+                bankEntity,
+                date,
+                bankOperationRequest.getAmount()
+                );
 
 
 

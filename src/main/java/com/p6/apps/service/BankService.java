@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -39,7 +40,8 @@ public class BankService {
                 bankRequest.getIban(),
                 bankRequest.getAmountBank(),
                 user,
-                new ArrayList<>() // userOperation
+                new ArrayList<>(), // userOperation
+                new HashSet<>()
         );
 
         bankEntity = bankRepository.save(bankEntity);

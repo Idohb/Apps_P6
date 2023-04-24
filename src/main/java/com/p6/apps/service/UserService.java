@@ -8,10 +8,7 @@ import com.p6.apps.service.data.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +45,8 @@ public class UserService {
                 new ArrayList<>(), // creditor
                 new ArrayList<>(), // friend
                 new ArrayList<>(),  // bank
-                new ArrayList<>() // bankOperation
+                new ArrayList<>(), // bankOperation
+                new HashSet<>()
         );
         UserEntity entity = userRepository.save(userEntity);
         return modelMapper.map(entity, User.class);

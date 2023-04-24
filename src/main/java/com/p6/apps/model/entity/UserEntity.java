@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Builder
@@ -43,14 +44,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "idBank")
     private List<BankEntity> ownBank;
 
-/*    @ManyToMany
-    @JoinTable(
-            name="bank_operation",
-            joinColumns = @JoinColumn(name="user_id_user"),
-            inverseJoinColumns = @JoinColumn(name="bank_id_bank")
-    )
-    private List<BankEntity> bankOperation;*/
-
-    @OneToMany(mappedBy = "idBankOperation")
+    @OneToMany(mappedBy = "userEntity")
     private List<BankOperationEntity> userOperation;
+
+    @ManyToMany
+    private Set<BankEntity> operationBank;
 }

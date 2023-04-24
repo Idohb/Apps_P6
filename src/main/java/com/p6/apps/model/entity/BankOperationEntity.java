@@ -15,21 +15,18 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="bankoperation")
 public class BankOperationEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idBankOperation;
-    private LocalDateTime date;
-    private double amount;
+    @EmbeddedId
+    private BankOperationKey idBankOperation;
     @ManyToOne
-    @MapsId("id_user")
+    @MapsId("userId")
     @JoinColumn(name = "user_id_user")
     private UserEntity userEntity;
-
     @ManyToOne
-    @MapsId("id_bank")
+    @MapsId("bankId")
     @JoinColumn(name = "bank_id_bank")
     private BankEntity bankEntity;
 
-
+    private LocalDateTime date;
+    private double amount;
 
 }
