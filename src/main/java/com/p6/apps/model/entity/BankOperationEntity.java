@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="bankoperation")
 public class BankOperationEntity {
-    @EmbeddedId
-    private BankOperationKey idBankOperation;
+    @Id
+    private Long idBankOperation;
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id_user")

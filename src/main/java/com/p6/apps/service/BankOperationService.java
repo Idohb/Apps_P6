@@ -3,7 +3,6 @@ package com.p6.apps.service;
 import com.p6.apps.controller.dto.bank.BankOperationRequest;
 import com.p6.apps.model.entity.BankEntity;
 import com.p6.apps.model.entity.BankOperationEntity;
-import com.p6.apps.model.entity.BankOperationKey;
 import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.BankOperationRepository;
 import com.p6.apps.model.repository.BankRepository;
@@ -38,19 +37,24 @@ public class BankOperationService {
     @Transactional
     public BankOperation makeDeposit(BankOperationRequest bankOperationRequest) {
         LocalDateTime date = LocalDateTime.now();
+
+        double amount = bankOperationRequest.getAmount();
+
         UserEntity userEntity = userRepository.findById(bankOperationRequest.getIdUser()).orElseThrow(() -> new NoSuchElementException("Id " + bankOperationRequest.getIdUser() + " not found"));
         BankEntity bankEntity = bankRepository.findByUserAndIdBank(userEntity, bankOperationRequest.getIdBank())
                 .orElseThrow(() -> new NoSuchElementException("Bank not found"));
 
-        BankOperationEntity bankOperationEntity = new BankOperationEntity(new BankOperationKey(),
+        BankOperationEntity bankOperationEntity = new BankOperationEntity(0L,
                 userEntity,
                 bankEntity,
                 date,
                 bankOperationRequest.getAmount()
                 );
 
-        bankEntity.setAmountBank(bankEntity.getAmountBank() + bankOperationRequest.getAmount());
+        bankEntity.setAmountBank(bankEntity.getAmountBank() + amount);
+        userEntity.setBalance(userEntity.getBalance()       - amount);
         bankRepository.save(bankEntity);
+        userRepository.save(userEntity);
         bankOperationRepository.save(bankOperationEntity);
 
         return modelMapper.map(
@@ -62,12 +66,15 @@ public class BankOperationService {
     @Transactional
     public BankOperation withdrawMoney(BankOperationRequest bankOperationRequest) {
         LocalDateTime date = LocalDateTime.now();
+
+        double amount = bankOperationRequest.getAmount();
+
         UserEntity userEntity = userRepository.findById(bankOperationRequest.getIdUser())
                 .orElseThrow(() -> new NoSuchElementException("Id " + bankOperationRequest.getIdUser() + " not found"));
         BankEntity bankEntity = bankRepository.findByUserAndIdBank(userEntity, bankOperationRequest.getIdBank())
                 .orElseThrow(() -> new NoSuchElementException("Bank not found"));
 
-        BankOperationEntity bankOperationEntity = new BankOperationEntity(new BankOperationKey(),
+        BankOperationEntity bankOperationEntity = new BankOperationEntity(0L,
                 userEntity,
                 bankEntity,
                 date,
@@ -76,12 +83,14 @@ public class BankOperationService {
 
 
 
-        bankEntity.setAmountBank(bankEntity.getAmountBank() - bankOperationRequest.getAmount());
+        bankEntity.setAmountBank(bankEntity.getAmountBank() - amount);
+        userEntity.setBalance(userEntity.getBalance()       + amount);
         bankRepository.save(bankEntity);
-        bankOperationRepository.save(bankOperationEntity);
+        userRepository.save(userEntity);
+        BankOperationEntity boe = bankOperationRepository.save(bankOperationEntity);
 
         return modelMapper.map(
-                bankOperationEntity,
+                boe,
                 BankOperation.class
         );
     }

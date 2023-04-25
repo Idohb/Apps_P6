@@ -116,11 +116,12 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbp6`.`bankoperation` ;
 
 CREATE TABLE IF NOT EXISTS `dbp6`.`bankoperation` (
+    `id_bank_operation` INT NOT NULL AUTO_INCREMENT,
     `date` DATETIME NOT NULL,
     `amount` DOUBLE ZEROFILL NOT NULL,
-    `user_id_user` INT NOT NULL,
-    `bank_id_bank` INT NOT NULL,
-    PRIMARY KEY (`user_id_user`, `bank_id_bank`),
+    `user_id_user` INT NOT NULL DEFAULT 1,
+    `bank_id_bank` INT NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_bank_operation`),
     INDEX `fk_user_has_bank_bank1_idx` (`bank_id_bank` ASC) INVISIBLE,
     INDEX `fk_user_has_bank_user1_idx` (`user_id_user` ASC) VISIBLE,
     CONSTRAINT `fk_user_has_bank_user1`
