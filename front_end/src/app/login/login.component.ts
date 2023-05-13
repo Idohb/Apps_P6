@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   public loginResponse: Login[] = [];
   public loginForm: Login = new class implements Login {
     email: string = "";
-    id: number = 0;
+    idUser: number = 0;
     password: string = "";
     user_id:number = 0;
   };
@@ -49,8 +49,8 @@ export class LoginComponent implements OnInit {
       next: (data) => {
         if (data.email == login.email && data.password == login.password) {
           this.loginStatus = "true";
-          this.loginService.setUserId(data.id);
-          this.router.navigate(['person/'+ data.id]);
+          this.loginService.setUserId(data.idUser);
+          this.router.navigate(['user/'+ data.idUser]);
         }
       },
       error :  () => {
@@ -83,9 +83,9 @@ export class LoginComponent implements OnInit {
       this.loginSuccess = true;
       this.loginStatus = "true";
       this.successMessage = 'Login Successful.';
-      this.authenticationService.setUserId(data.id);
-      this.loginForm.user_id = data.id;
-      /*this.router.navigate(['person/' + data.id]);*/
+      this.authenticationService.setUserId(data.idUser);
+      this.loginForm.user_id = data.idUser;
+      this.router.navigate(['user/' + data.idUser]);
     }, () => {
       this.invalidLogin = true;
       this.loginSuccess = false;

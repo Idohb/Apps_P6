@@ -7,15 +7,18 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {RouterModule, Routes} from "@angular/router";
+import { UserComponent } from './user/user.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'user/:id', component: UserComponent },
   { path: '', component: LoginComponent }
 ];
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
