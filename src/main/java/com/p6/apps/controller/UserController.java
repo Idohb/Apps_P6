@@ -96,4 +96,13 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("login")
+    public ResponseEntity<User> searchEmailAndPassword(@RequestParam("email") final String email, @RequestParam("password") final String password) {
+        try {
+            return ResponseEntity.ok(userService.searchEmailAndPassword(email, password));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
