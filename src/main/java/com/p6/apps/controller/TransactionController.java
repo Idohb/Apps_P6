@@ -78,4 +78,15 @@ public class TransactionController {
         transactionService.deleteTransactions();
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("transactionByCreditor/{id}")
+    public ResponseEntity<List<Transaction>> getTransactionInternalByCrediteur(@PathVariable("id") final Long id) {
+        try {
+            log.info("ok");
+            return ResponseEntity.ok(transactionService.getTransactionByCreditor(id));
+        } catch (NoSuchElementException e) {
+            log.info("error");
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

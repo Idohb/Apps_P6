@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity,Long>{
-    Optional<List<TransactionEntity>> findByCreditor(UserEntity creditor);
+    Optional<List<TransactionEntity>> findByCreditor_IdUser(Long creditor);
 }

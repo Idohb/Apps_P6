@@ -97,7 +97,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("login")
+    @GetMapping("login") // ce doit être un POST
     public ResponseEntity<User> searchEmailAndPassword(@RequestParam("email") final String email, @RequestParam("password") final String password) {
         try {
             return ResponseEntity.ok(userService.searchEmailAndPassword(email, password));

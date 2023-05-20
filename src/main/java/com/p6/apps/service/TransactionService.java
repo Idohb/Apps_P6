@@ -40,7 +40,7 @@ public class TransactionService {
     //
     public List<Transaction> getTransaction(final Long id) {
         UserEntity userCreditor = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Id " + id + " not found"));
-        List<TransactionEntity> transactionEntity = transactionRepository.findByCreditor(userCreditor).orElseThrow(() -> new NoSuchElementException("creditor " + userCreditor.getIdUser() + " not found"));
+        List<TransactionEntity> transactionEntity = transactionRepository.findByCreditor_IdUser(userCreditor.getIdUser()).orElseThrow(() -> new NoSuchElementException("creditor " + userCreditor.getIdUser() + " not found"));
         return transactionEntity.stream()
                 .map(entity -> modelMapper.map(entity,Transaction.class))
                 .collect(Collectors.toList());
@@ -123,6 +123,14 @@ public class TransactionService {
 
     private double calculateCommission(double amount) {
         return amount * 5 /100;
+    }
+
+    public List<Transaction> getTransactionByCreditor(final Long id) {
+        UserEntity creditor = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Person id " + id + " not found"));
+        List<TransactionEntity> transactionEntity = transactionRepository.findByCreditor_IdUser(creditor.getIdUser()).orElseThrow(() -> new NoSuchElementException("Id " + id + " not found"));
+        return transactionEntity.stream()
+                .map(entity -> modelMapper.map(entity,Transaction.class))
+                .collect(Collectors.toList());
     }
 
 }

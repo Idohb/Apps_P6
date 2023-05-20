@@ -8,17 +8,20 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {RouterModule, Routes} from "@angular/router";
 import { UserComponent } from './user/user.component';
+import { TransactionComponent } from './transaction/transaction.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'user/:id', component: UserComponent },
+  { path: 'transaction', component:TransactionComponent},
   { path: '', component: LoginComponent }
 ];
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    UserComponent
+    UserComponent,
+    TransactionComponent
   ],
   imports: [
     BrowserModule,
