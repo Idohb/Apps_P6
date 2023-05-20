@@ -66,7 +66,7 @@ public class TransactionService {
                 transactionRequest.getAmountTransaction(),
                 date,
                 this.calculateCommission(transactionRequest.getAmountTransaction()),
-                transactionRequest.getType(),
+//                transactionRequest.getType(),
                 userCreditor,
                 userDebtor
         );

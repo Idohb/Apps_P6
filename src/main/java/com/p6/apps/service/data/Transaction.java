@@ -12,5 +12,5 @@ public class Transaction {
     private LocalDateTime timeTransaction;
     private double commission;
 
-    private int type; // P = Payment, D = Debit, C = Credit,
+//    private int type; // P = Payment, D = Debit, C = Credit,
 }
