@@ -11,7 +11,9 @@ export class LoginService {
   constructor(private http:HttpClient) { }
 
   public getLogin(login : Login): Observable<Login> {
-    return this.http.get<Login>(this.apiServerUrl + "login?email=" + login.email + "&password=" + login.password);
+    return this.http.post<Login>(this.apiServerUrl + "login?", {
+      email:login.email,
+      password:login.password});
   }
   public setUserId(id : number) {
     this.userId = id;
