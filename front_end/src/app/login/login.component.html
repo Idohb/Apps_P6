@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-3 mx-auto">
           <div class="card">
-            <div class="card-header text-center"><img src="../../assets/logo.png" alt="Pay My Buddy"/></div>
+            <div class="card-header text-center"><img srcset="../../assets/logo.png" alt="Pay My Buddy"/></div>
             <div class="card-body">
               <form #editForm="ngForm">
                 <div class="row">
@@ -21,7 +21,7 @@
                   <div class="form-group"><label class="text-muted" *ngIf="errorPassword">Error Password</label>
                   </div>
                   <div class="row">
-                    <input type="password" [(ngModel)]="loginForm.password" name="password" password="true" #prmPassword="ngModel" id="password"
+                    <input type="password" [(ngModel)]="loginForm.password" name="password" #prmPassword="ngModel" id="password"
                            class="form-control_password" placeholder="Password">
                   </div>
                 </div>
