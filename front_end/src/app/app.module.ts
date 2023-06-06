@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {RouterModule, Routes} from "@angular/router";
 import { UserComponent } from './user/user.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import {NgOptimizedImage} from "@angular/common";
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgOptimizedImage
   ],
   providers: [],
   bootstrap: [AppComponent]
