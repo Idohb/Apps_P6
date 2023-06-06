@@ -11,6 +11,9 @@ import {AuthService} from "./auth.service";
 })
 export class LoginComponent implements OnInit {
   public loginResponse: Login[] = [];
+
+  public errorEmail: Boolean = false;
+  public errorPassword: Boolean = false;
   public loginForm: Login = new class implements Login {
     email: string = "";
     idUser: number = 0;
@@ -47,6 +50,12 @@ export class LoginComponent implements OnInit {
   onToggleLoginsCheck(login : Login) {
     this.loginService.getLogin(login).subscribe( {
       next: (data) => {
+        if (data.email != login.email) {
+          this.errorEmail = true;
+        }
+        if (data.password != login.password) {
+          this.errorPassword = true;
+        }
         if (data.email == login.email && data.password == login.password) {
           this.loginStatus = "true";
           this.loginService.setUserId(data.idUser);
@@ -61,6 +70,7 @@ export class LoginComponent implements OnInit {
     });
 
   }
+
 
   onToggleLoginsCheckWithSecurity() {
     // this.authenticationService.authenticationService(this.username, this.password).subscribe({

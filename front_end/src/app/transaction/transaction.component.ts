@@ -37,15 +37,7 @@ export class TransactionComponent implements OnInit{
   };
 
   public transactionRequest: TransactionRequest[] = [];
-  public transactionRequestForm: {
-    idTransaction: number;
-    description: string;
-    amount: string;
-    timeTransaction: string;
-    creditor: User;
-    debtor: User;
-    emailLogin: string
-  } = new class implements TransactionRequest {
+  public transactionRequestForm: TransactionRequest = new class implements TransactionRequest {
     idTransaction: number = 0;
     description: string = "";
     amount: string= "";
@@ -63,7 +55,10 @@ export class TransactionComponent implements OnInit{
   private getTransactions() {
     this.transactionService.getTransaction().subscribe( {
         next: (data) => {
+          console.log("1");
           this.transactionRequest = data;
+          console.log("2");
+          console.log(this.transactionRequest);
         },
         error : () => {
           console.info('error transaction')

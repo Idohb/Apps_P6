@@ -98,12 +98,14 @@ public class UserController {
         }
     }
 
-    @PostMapping("login") // ce doit être un POST
-    public ResponseEntity<User> searchEmailAndPassword(@RequestBody LoginRequest loginRequest) {
+    @PostMapping("login")
+    public ResponseEntity<User> searchEmailAndPassword(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             return ResponseEntity.ok(userService.searchEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword()));
         } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
+            User user = new User();
+            return ResponseEntity.ok(user);
+//            return ResponseEntity.notFound().build();
         }
     }
 }
