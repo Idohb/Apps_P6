@@ -64,11 +64,10 @@ public class UserService {
 
     public User searchEmailAndPassword(String email, String password) {
         UserEntity userEntity = userRepository.findByEmailAndPassword(email, password).orElseThrow(() -> new NoSuchElementException(""));
-        User user = modelMapper.map(
+        return modelMapper.map(
                 userEntity,
                 User.class
         );
-        return user;
     }
 
     private void updateEntity(UserEntity userEntity, UserRequest userRequest) {
