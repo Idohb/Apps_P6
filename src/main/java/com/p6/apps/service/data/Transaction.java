@@ -11,6 +11,8 @@ public class Transaction {
     private double amountTransaction;
     private LocalDateTime timeTransaction;
     private double commission;
+    private User debtor;
+    private User creditor;
 
 //    private int type; // P = Payment, D = Debit, C = Credit,
 }

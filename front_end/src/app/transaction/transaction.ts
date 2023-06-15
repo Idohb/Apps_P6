@@ -13,7 +13,7 @@ export interface Transaction {
 export interface TransactionRequest {
   idTransaction: number;
   description: string;
-  amount: string;
+  amountTransaction: string;
   timeTransaction: string;
   creditor : User ;
   debtor: User;

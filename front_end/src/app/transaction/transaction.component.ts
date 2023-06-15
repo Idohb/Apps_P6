@@ -31,16 +31,16 @@ export class TransactionComponent implements OnInit{
 
   public listFriends: User[] = [];
   public friends : User = new class implements User {
-    firstName: string = "";
+    first_name: string = "";
     id: number = 0;
-    lastName: string = "";
+    last_name: string = "";
   };
 
   public transactionRequest: TransactionRequest[] = [];
   public transactionRequestForm: TransactionRequest = new class implements TransactionRequest {
     idTransaction: number = 0;
     description: string = "";
-    amount: string= "";
+    amountTransaction: string= "";
     timeTransaction: string= "";
     creditor!: User;
     debtor!: User;
