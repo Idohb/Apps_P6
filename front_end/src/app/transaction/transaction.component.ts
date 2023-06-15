@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Transaction, TransactionRequest} from "./transaction";
 import {TransactionService} from "./transaction.service";
 import {User} from "../user/user";
+import {AuthService} from "../login/auth.service";
 
 @Component({
   selector: 'app-transaction',
@@ -29,13 +30,6 @@ export class TransactionComponent implements OnInit{
     timeTransaction: string= "";
   }
 
-  public listFriends: User[] = [];
-  public friends : User = new class implements User {
-    first_name: string = "";
-    id: number = 0;
-    last_name: string = "";
-  };
-
   public transactionRequest: TransactionRequest[] = [];
   public transactionRequestForm: TransactionRequest = new class implements TransactionRequest {
     idTransaction: number = 0;
@@ -47,10 +41,13 @@ export class TransactionComponent implements OnInit{
     emailLogin: string = "";
   }
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(private transactionService: TransactionService,
+              private authenticationService : AuthService) { }
   ngOnInit(): void {
     this.getTransactions();
   }
+
+
 
   private getTransactions() {
     this.transactionService.getTransaction().subscribe( {
@@ -67,4 +64,8 @@ export class TransactionComponent implements OnInit{
       }
     );
   }
+
+
+
+
 }

@@ -4,6 +4,7 @@ insert into user(first_name,last_name,email,password,balance) values('tutu','tot
 commit;
 
 insert into friend(user_iduser, user_iduser1) values (1, 3);
+insert into friend(user_iduser, user_iduser1) values (3, 1);
 
 
 insert into bank(iban, amount_bank, user_id) values('a',30000,1);

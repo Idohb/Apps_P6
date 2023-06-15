@@ -40,7 +40,5 @@ export class TransactionService {
     return this.http.post<Transaction>(this.apiServerUrl + "transaction", amount);
   }
 
-  public getFriends() : Observable<User[]>{
-    return this.http.get<User[]>(this.apiServerUrl + "friends/" + this.loginService.getUserId());
-  }
+
 }
