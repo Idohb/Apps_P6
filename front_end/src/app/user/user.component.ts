@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {User} from "./user";
+import {Friend, User} from "./user";
 import {UserService} from "./user.service";
 import {ActivatedRoute} from "@angular/router";
 import {Transaction} from "../transaction/transaction";
@@ -25,11 +25,9 @@ export class UserComponent {
   }
 
   public listFriends: User[] = [];
-  public friends : User = new class implements User {
-    first_name: string = "";
-    id: number = 0;
-    last_name: string = "";
-    emailLogin: string = "";
+  public friend : Friend = new class implements Friend {
+    userCurrent: number = 0;
+    email: string = "";
   };
 
   public UserResponse: User[] = [];
@@ -45,7 +43,6 @@ export class UserComponent {
     emailLogin: string = "";
   }
 
-  private email :string ="";
   private debiteurId: number= 0;
 
 
@@ -78,25 +75,26 @@ export class UserComponent {
     button.click();
   }
 
-  public onAddPersonConnection(addForm: User): void {
+  public onAddPersonConnection(addForm: Friend): void {
     const elementAddPerson = document.getElementById('add-employee-form');
-    this.email = addForm.emailLogin;
     if (elementAddPerson === null) {
       alert('oops');
     } else {
       elementAddPerson.click();
     }
-    console.log(addForm.emailLogin);
-    this.addPersonConnection(this.email);
+    console.log(addForm.email);
+    this.friend["userCurrent"] = this.loginService.getUserId();
+    this.friend.email = addForm.email;
+    this.addPersonConnection(this.friend);
   }
-  public addPersonConnection(personConnection : string) {
-    console.log(personConnection);
+  public addPersonConnection(friend : Friend) {
+    console.log(friend);
     // la méthode addPersonConnection a pour but de chercher une personne par email.
-    this.userService.searchPersonConnection(personConnection).subscribe( {
+    this.userService.searchPersonConnection(friend).subscribe( {
       next:(debiteur) => {
         // console.log(this.loginService.getUserId());
-        console.log(debiteur.idUser);
-        this.setDebiteurId(debiteur.idUser);
+        console.log(debiteur.userCurrent);
+        this.setDebiteurId(debiteur.userCurrent);
         this.getFriends();
       },
       error:() => {

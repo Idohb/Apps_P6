@@ -4,3 +4,7 @@ export interface User {
   last_name: string;
   emailLogin: string;
 }
+export interface Friend {
+  userCurrent: number;
+  email: string;
+}

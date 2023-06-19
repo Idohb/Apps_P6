@@ -33,16 +33,16 @@
       <p class="fs-5">Home / Transfer</p>
   </div>
 </div>
-
-<div class="row py-4">
-  <div class="offset-3 col-6">
-    <div class="clearfix">
-      <span class="fs-5 align-bottom">Send money</span>
-      <button type="button" class="btn btn-primary float-end" (click)="onOpenModalToAddFriends(null, 'add')">Add connection</button>
+<div class="container border col-12" id="main-container">
+  <div class="row py-4">
+    <div class="offset-3 col-6">
+      <div class="clearfix">
+        <span class="fs-5 align-bottom">Send money</span>
+        <button type="button" class="btn btn-primary float-end" (click)="onOpenModalToAddFriends(null, 'add')">Add connection</button>
+      </div>
     </div>
   </div>
 </div>
-
 
 <div class="row py-4">
   <form #payForm="ngForm" class="offset-3">
@@ -95,8 +95,8 @@
       <div class="modal-body">
         <form #addForm="ngForm">
           <div class="form-group">
-            <label for="emailLogin">Email</label>
-            <input type="email" [(ngModel)]="userForm.emailLogin" name="emailLogin" class="form-control" id="emailLogin" placeholder="EmailLogin" required>
+            <label for="email">Email</label>
+            <input type="email" [(ngModel)]="friend.email" name="email" class="form-control" id="email" placeholder="Email" required>
           </div>
           <div class="modal-footer">
             <button type="button" id="add-employee-form" class="btn btn-secondary" data-dismiss="modal">Close</button>

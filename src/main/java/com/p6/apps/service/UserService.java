@@ -69,7 +69,6 @@ public class UserService {
                 User.class
         );
     }
-
     private void updateEntity(UserEntity userEntity, UserRequest userRequest) {
 
         if (userRequest.getFirst_name() != null)

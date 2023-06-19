@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {User} from "./user";
+import {Friend, User} from "./user";
 import {HttpClient} from "@angular/common/http";
 import {LoginService} from "../login/login.service";
 import {Login} from "../login/login";
@@ -29,7 +29,7 @@ export class UserService {
     return this.http.post<Transaction>(this.apiServerUrl + "transactionInternal", amount);
   }
 
-  public searchPersonConnection(personConnection : string) : Observable<Login> {
-    return this.http.get<Login>(this.apiServerUrl + "loginSearch?emailLogin="+ personConnection + "&crediteur=" + this.authenticationService.getUserId());
+  public searchPersonConnection(personConnection : Friend) : Observable<Friend> {
+    return this.http.post<Friend>(this.apiServerUrl + "friends", personConnection);
   }
 }
