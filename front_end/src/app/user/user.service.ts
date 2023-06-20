@@ -3,7 +3,6 @@ import {Observable} from "rxjs";
 import {Friend, User} from "./user";
 import {HttpClient} from "@angular/common/http";
 import {LoginService} from "../login/login.service";
-import {AuthService} from "../login/auth.service";
 
 @Injectable({
   providedIn: 'root'
