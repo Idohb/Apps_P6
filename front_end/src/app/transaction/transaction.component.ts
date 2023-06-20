@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Transaction, TransactionRequest} from "./transaction";
+import {Transaction, TransactionList, TransactionRequest} from "./transaction";
 import {TransactionService} from "./transaction.service";
 import {User} from "../user/user";
 import {AuthService} from "../login/auth.service";
@@ -30,19 +30,15 @@ export class TransactionComponent implements OnInit{
     timeTransaction: string= "";
   }
 
-  public transactionRequest: TransactionRequest[] = [];
-  public transactionRequestForm: TransactionRequest = new class implements TransactionRequest {
-    idTransaction: number = 0;
+  public transactionList: TransactionList[] = [];
+  public transactionListForm: TransactionList = new class implements TransactionList {
     description: string = "";
     amountTransaction: string= "";
-    timeTransaction: string= "";
     creditor!: User;
     debtor!: User;
-    emailLogin: string = "";
   }
 
-  constructor(private transactionService: TransactionService,
-              private authenticationService : AuthService) { }
+  constructor(private transactionService: TransactionService) { }
   ngOnInit(): void {
     this.getTransactions();
   }
@@ -52,10 +48,7 @@ export class TransactionComponent implements OnInit{
   private getTransactions() {
     this.transactionService.getTransaction().subscribe( {
         next: (data) => {
-          console.log("1");
-          this.transactionRequest = data;
-          console.log("2");
-          console.log(this.transactionRequest);
+          this.transactionList = data;
         },
         error : () => {
           console.info('error transaction')

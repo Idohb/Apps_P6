@@ -10,13 +10,17 @@ export interface Transaction {
   emailLogin:string;
 }
 
-export interface TransactionRequest {
-  idTransaction: number;
+export interface TransactionList {
   description: string;
   amountTransaction: string;
-  timeTransaction: string;
   creditor : User ;
   debtor: User;
-  emailLogin:string;
+}
+
+export interface TransactionRequest {
+  description: string;
+  amountTransaction: string;
+  creditor : number ;
+  debtor: number;
 }
 

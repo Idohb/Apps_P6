@@ -33,7 +33,7 @@
       <p class="fs-5">Home / Transfer</p>
   </div>
 </div>
-<div class="container border col-12" id="main-container">
+<div class="container border col-12" id="main-container-friend">
   <div class="row py-4">
     <div class="offset-3 col-6">
       <div class="clearfix">
@@ -44,32 +44,19 @@
   </div>
 </div>
 
-<div class="row py-4">
-  <form #payForm="ngForm" class="offset-3">
-    <div class="row">
-      <div class="col-2">
-        <div class="form-group">
-          <select class="form-select" style="width:auto;">
-            <option selected>Select A Connection</option>
-            <option *ngFor="let friends of listFriends" [value]="friends.id">{{friends.first_name}}</option>
+<div class="container border col-12" id="main-container-payment">
+  <div class="row">
+    <form #payForm="ngForm">
+      <div class="form-group">
+          <select name="debtor" [(ngModel)]="transactionRequestForm.debtor" id="debtor" (ngModelChange)="selected(transactionRequestForm.debtor)">
+            <option [ngValue]="" default disabled >Select a Connection</option>
+            <option *ngFor="let friends of listFriends" [ngValue]=friends.idUser>{{friends.first_name}}</option>
           </select>
-        </div>
+          <input type="number" [(ngModel)]="transactionRequestForm.amountTransaction" name="amountTransaction" placeholder="1.0" step="0.01" min="0" max="10000000" id="amountTransaction"/>
+          <button [disabled]="payForm.invalid" (click)="clickToPay(payForm.value)" class="btn btn-primary"  type="submit">Pay</button>
       </div>
-
-      <div class="col-1">
-        <div class="form-group">
-          <div class="input-group">
-            <input type="number" id="number" value="0"/>
-          </div>
-        </div>
-      </div>
-      <div class="col-2">
-    <span class="input-group-btn">
-            <button [disabled]="payForm.invalid" (click)="clickToPay(payForm.value)" class="btn btn-primary float-end" type="submit">Pay</button>
-          </span>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 
 <div class="row py-4">

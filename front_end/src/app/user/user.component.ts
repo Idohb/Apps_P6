@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Friend, User} from "./user";
 import {UserService} from "./user.service";
 import {ActivatedRoute} from "@angular/router";
-import {Transaction} from "../transaction/transaction";
+import {Transaction, TransactionRequest} from "../transaction/transaction";
 import {LoginService} from "../login/login.service";
 import {AuthService} from "../login/auth.service";
 import {TransactionService} from "../transaction/transaction.service";
@@ -30,14 +30,13 @@ export class UserComponent {
     email: string = "";
   };
 
-  public UserResponse: User[] = [];
   public userForm : {
-    id: number;
+    idUser: number;
     first_name: string;
     last_name: string;
     emailLogin: string;
   } = new class implements User {
-    id: number = 0;
+    idUser: number = 0;
     first_name: string = "";
     last_name: string = "";
     emailLogin: string = "";
@@ -45,7 +44,24 @@ export class UserComponent {
 
   private debiteurId: number= 0;
 
+  public transactionRequest: TransactionRequest[] = [];
+  public transactionRequestForm: TransactionRequest = new class implements TransactionRequest {
+    amountTransaction: string = "";
+    creditor: number = 0;
+    debtor: number = 0;
+    description: string = "";
+  }
 
+
+  selectedOption: number =0 ;
+  options = [
+    { name: "option1", value: 1 },
+    { name: "option2", value: 2 }
+  ]
+
+  selected(name : number){
+    console.log(name);
+  }
 
   private getFriends() {
     this.userService.getFriends().subscribe( {
@@ -104,9 +120,10 @@ export class UserComponent {
     this.userService.addPersonConnection(this.loginService.getUserId(), this.getDebiteurId());
   }
 
-  public clickToPay(payForm: Transaction) : void {
-    payForm.creditor = this.authenticationService.getUserId();
-    payForm.description = payForm.amount + " euros";
+  public clickToPay(payForm: TransactionRequest) : void {
+    payForm.creditor = this.loginService.getUserId();
+    payForm.description = payForm.amountTransaction + " euros";
+
     console.log(payForm.debtor);
 
     //TODO : est ce que le subscribe est utile ? + regarde la manipulation de données localstorage ou cookies
@@ -129,5 +146,7 @@ export class UserComponent {
   public getDebiteurId() : number {
     return this.debiteurId;
   }
+
+
 
 }
