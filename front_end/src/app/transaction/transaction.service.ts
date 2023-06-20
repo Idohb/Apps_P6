@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {UserService} from "../user/user.service";
 import {LoginService} from "../login/login.service";
 import {Transaction, TransactionList, TransactionRequest} from "./transaction";
-import {User} from "../user/user";
 
 @Injectable({
   providedIn: 'root'

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Friend, User} from "./user";
 import {UserService} from "./user.service";
 import {ActivatedRoute} from "@angular/router";
-import {Transaction, TransactionRequest} from "../transaction/transaction";
+import {TransactionRequest} from "../transaction/transaction";
 import {LoginService} from "../login/login.service";
 import {AuthService} from "../login/auth.service";
 import {TransactionService} from "../transaction/transaction.service";
@@ -19,9 +19,10 @@ export class UserComponent {
               private loginService : LoginService,
               private authenticationService : AuthService,
               private transactionService : TransactionService) {
-    route.params.subscribe(val => {
+    route.params.subscribe(() => {
       this.getFriends();
     });
+
   }
 
   public listFriends: User[] = [];
@@ -30,35 +31,14 @@ export class UserComponent {
     email: string = "";
   };
 
-  public userForm : {
-    idUser: number;
-    first_name: string;
-    last_name: string;
-    emailLogin: string;
-  } = new class implements User {
-    idUser: number = 0;
-    first_name: string = "";
-    last_name: string = "";
-    emailLogin: string = "";
-  }
-
   private debiteurId: number= 0;
 
-  public transactionRequest: TransactionRequest[] = [];
   public transactionRequestForm: TransactionRequest = new class implements TransactionRequest {
     amountTransaction: string = "";
     creditor: number = 0;
     debtor: number = 0;
     description: string = "";
   }
-
-
-  selectedOption: number =0 ;
-  options = [
-    { name: "option1", value: 1 },
-    { name: "option2", value: 2 }
-  ]
-
   selected(name : number){
     console.log(name);
   }

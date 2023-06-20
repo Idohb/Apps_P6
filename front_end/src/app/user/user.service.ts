@@ -3,9 +3,7 @@ import {Observable} from "rxjs";
 import {Friend, User} from "./user";
 import {HttpClient} from "@angular/common/http";
 import {LoginService} from "../login/login.service";
-import {Login} from "../login/login";
 import {AuthService} from "../login/auth.service";
-import {Transaction, TransactionRequest} from "../transaction/transaction";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +12,7 @@ export class UserService {
 
   private apiServerUrl = "http://localhost:8080/";
   constructor(private http:HttpClient,
-              private loginService : LoginService,
-              private authenticationService: AuthService) { }
+              private loginService : LoginService) { }
 
   public getFriends() : Observable<User[]>{
     return this.http.get<User[]>(this.apiServerUrl + "friend/" + this.loginService.getUserId());
