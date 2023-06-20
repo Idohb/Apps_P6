@@ -6,14 +6,14 @@
       <div class="row">
         <div class="col-3 mx-auto">
           <div class="card">
-            <div class="card-header text-center"><img ngSrc="../../assets/logo.png" srcset="../../assets/logo.png" alt="Pay My Buddy"/></div>
+            <div class="card-header text-center"><img ngSrc="assets/logo.png" srcset="../../assets/logo.png" width="104" height="30" alt="Pay My Buddy"/></div>
             <div class="card-body">
               <form #editForm="ngForm">
                 <div class="row">
                   <div class="form-group"><label class="text-muted" *ngIf="errorEmail" id="error">Error Email address</label><!--test-->
                   </div>
                   <div class="row">
-                    <input type="email" [(ngModel)]="loginForm.email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$" name="email" email="true"  #prmEmail="ngModel" id="email"
+                    <input type="email" [(ngModel)]="loginForm.email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$" name="email" email="true"  id="email"
                            class="form-control_email" aria-describedby="emailHelp" placeholder="Enter email"></div>
                 </div>
                 <div class="py-2"></div>
@@ -21,7 +21,7 @@
                   <div class="form-group"><label class="text-muted" *ngIf="errorPassword">Error Password</label>
                   </div>
                   <div class="row">
-                    <input type="password" [(ngModel)]="loginForm.password" name="password" #prmPassword="ngModel" id="password"
+                    <input type="password" [(ngModel)]="loginForm.password" name="password" id="password"
                            class="form-control_password" placeholder="Password">
                   </div>
                 </div>
