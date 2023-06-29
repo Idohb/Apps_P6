@@ -1,6 +1,6 @@
-insert into user(first_name,last_name,email,password,balance) values('Bodivann','KHEK','bodivann@mail.com','letmeinbodi',3000,'ROLE_USER');
-insert into user(first_name,last_name,email,password,balance) values('tata','titi','tata@mail.com','letmeintata',2500,'ROLE_USER');
-insert into user(first_name,last_name,email,password,balance) values('tutu','toto','tutu@mail.com','letmeintutu',2000,'ROLE_USER');
+insert into user(first_name,last_name,email,password,balance,roles) values('Bodivann','KHEK','bodivann@mail.com','letmeinbodi',3000,'ROLE_USER');
+insert into user(first_name,last_name,email,password,balance,roles) values('tata','titi','tata@mail.com','letmeintata',2500,'ROLE_USER');
+insert into user(first_name,last_name,email,password,balance,roles) values('tutu','toto','tutu@mail.com','letmeintutu',2000,'ROLE_USER');
 commit;
 
 insert into friend(user_iduser, user_iduser1) values (1, 3);
