@@ -45,8 +45,9 @@ public class UserService {
     }
 
     public User addUser(RegisterRequest userRequest) {
-
+        List<RoleEntity> roleEntities = new ArrayList<>();
         RoleEntity role = roleRepository.findByName(TbConstants.Roles.USER);
+        roleEntities.add(role);
 
         //create an custom exception
         if(!this.verifyEmailRedundant(userRequest)) { return new User();}
@@ -62,7 +63,7 @@ public class UserService {
                 new ArrayList<>(),  // bank
                 new ArrayList<>(),  // bankOperation
                 new HashSet<>(),    // operationBank
-                new ArrayList<>()   // role
+                roleEntities   // role
         );
         UserEntity entity = userRepository.save(userEntity);
         return modelMapper.map(entity, User.class);
