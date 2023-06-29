@@ -9,7 +9,6 @@ import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.User;
 import com.p6.apps.util.TbConstants;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -109,7 +108,7 @@ public class UserService {
     }
 
     private boolean verifyEmailRedundant (RegisterRequest userRequest){
-            Optional<UserEntity> usrNonRedundant = userRepository.findByEmail(userRequest.getEmail());;
+            Optional<UserEntity> usrNonRedundant = userRepository.findByEmail(userRequest.getEmail());
             return usrNonRedundant.isEmpty();
     }
 
