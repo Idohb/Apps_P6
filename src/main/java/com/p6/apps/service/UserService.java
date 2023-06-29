@@ -2,10 +2,15 @@ package com.p6.apps.service;
 
 import com.p6.apps.controller.dto.user.RegisterRequest;
 import com.p6.apps.controller.dto.user.UserRequest;
+import com.p6.apps.model.entity.RoleEntity;
 import com.p6.apps.model.entity.UserEntity;
+import com.p6.apps.model.repository.RoleRepository;
 import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.User;
+import com.p6.apps.util.TbConstants;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,9 +20,16 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+
+    private final RoleRepository roleRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getLogins() {
@@ -33,6 +45,9 @@ public class UserService {
     }
 
     public User addUser(RegisterRequest userRequest) {
+
+        RoleEntity role = roleRepository.findByName(TbConstants.Roles.USER);
+
         //create an custom exception
         if(!this.verifyEmailRedundant(userRequest)) { return new User();}
         UserEntity userEntity = new UserEntity(0L,
@@ -41,12 +56,13 @@ public class UserService {
                 userRequest.getEmail(),
                 userRequest.getPassword(),
                 0,
-                new ArrayList<>(), // debtor
-                new ArrayList<>(), // creditor
-                new ArrayList<>(), // friend
+                new ArrayList<>(),  // debtor
+                new ArrayList<>(),  // creditor
+                new ArrayList<>(),  // friend
                 new ArrayList<>(),  // bank
-                new ArrayList<>(), // bankOperation
-                new HashSet<>()
+                new ArrayList<>(),  // bankOperation
+                new HashSet<>(),    // operationBank
+                new ArrayList<>()   // role
         );
         UserEntity entity = userRepository.save(userEntity);
         return modelMapper.map(entity, User.class);
@@ -92,8 +108,17 @@ public class UserService {
     }
 
     private boolean verifyEmailRedundant (RegisterRequest userRequest){
-            Optional<UserEntity> usrNonRedundant = userRepository.findByEmail(userRequest.getEmail());
+            Optional<UserEntity> usrNonRedundant = userRepository.findByEmail(userRequest.getEmail());;
             return usrNonRedundant.isEmpty();
     }
+
+    public User findUserByEmail(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException(""));
+        return modelMapper.map(
+                userEntity,
+                User.class
+        );
+    }
+
 }
 
