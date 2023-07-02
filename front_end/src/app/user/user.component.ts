@@ -55,7 +55,7 @@ export class UserComponent {
   }
 
   public onOpenModalToAddFriends(user: User|null, mode: string): void {
-    const container = document.getElementById('main-container');
+    const container = document.getElementById('main-container-friend');
     if (container === null) { return;}
     const button = document.createElement('button');
     button.type = 'button';
