@@ -33,7 +33,6 @@ public class FriendService {
         userCurrent.setFriend(userEntityList);
         UserEntity userEntity = userRepository.save(userFriend);
         return modelMapper.map(userEntity, User.class);
-//        return userConverter.mapperUser(userEntity);
     }
 
     public List<User> getFriends(Long idUser) {

@@ -62,6 +62,13 @@ public class UserService {
         );
     }
 
+    public User searchEmailAndPassword(String email, String password) {
+        UserEntity userEntity = userRepository.findByEmailAndPassword(email, password).orElseThrow(() -> new NoSuchElementException(""));
+        return modelMapper.map(
+                userEntity,
+                User.class
+        );
+    }
     private void updateEntity(UserEntity userEntity, UserRequest userRequest) {
 
         if (userRequest.getFirst_name() != null)

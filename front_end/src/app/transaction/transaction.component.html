@@ -1,0 +1,41 @@
+<!--<div class="container justify-content-center col-12">-->
+<!--  <div class="row">-->
+<!--    <div class="col-3">-->
+<!--      <table class="table bg-white table-bordered">-->
+<!--        <thead>-->
+<!--          <tr>-->
+<!--            <th > Connections </th>-->
+<!--            <th > Description </th>-->
+<!--            <th > Amount       </th>-->
+<!--          </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--          <tr id="TransactionConnection" *ngFor="let transaction of transactionRequest">-->
+<!--            <th>{{transaction.debtor.firstName}}</th>-->
+<!--            <th>{{transaction.description}}</th>-->
+<!--            <th>{{transaction.amount}}</th>-->
+<!--          </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+  <div class="offset-3 col-6">
+    <table class="table bg-white table-bordered">
+      <thead>
+      <tr id="headvert">
+        <th class="text-center text-light"> Connections </th>
+        <th class="text-center text-light"> Description </th>
+        <th class="text-center text-light"> Amount       </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr id="TransactionConnection" *ngFor="let transaction of transactionList">
+        <th>{{transaction.debtor.first_name}}</th>
+        <th>{{transaction.description}}</th>
+        <th>{{transaction.amountTransaction}}</th>
+      </tr>
+      </tbody>
+    </table>
+  </div>

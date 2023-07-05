@@ -3,14 +3,34 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import {RouterModule, Routes} from "@angular/router";
+import { UserComponent } from './user/user.component';
+import { TransactionComponent } from './transaction/transaction.component';
+import {NgOptimizedImage} from "@angular/common";
 
+const appRoutes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'user/:id', component: UserComponent },
+  { path: 'transaction', component:TransactionComponent},
+  { path: '', component: LoginComponent }
+];
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    UserComponent,
+    TransactionComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    RouterModule.forRoot(appRoutes),
+    NgOptimizedImage
   ],
   providers: [],
   bootstrap: [AppComponent]

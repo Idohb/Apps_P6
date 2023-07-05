@@ -1,5 +1,6 @@
 package com.p6.apps.controller;
 import com.p6.apps.controller.dto.user.FriendRequest;
+import com.p6.apps.controller.dto.user.LoginRequest;
 import com.p6.apps.service.FriendService;
 import com.p6.apps.controller.dto.user.RegisterRequest;
 import com.p6.apps.controller.dto.user.UserRequest;
@@ -94,6 +95,17 @@ public class UserController {
             return ResponseEntity.ok(friendService.getFriends(idUser));
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<User> searchEmailAndPassword(@Valid @RequestBody LoginRequest loginRequest) {
+        try {
+            return ResponseEntity.ok(userService.searchEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword()));
+        } catch (NoSuchElementException e) {
+            User user = new User();
+            return ResponseEntity.ok(user);
+//            return ResponseEntity.notFound().build();
         }
     }
 }

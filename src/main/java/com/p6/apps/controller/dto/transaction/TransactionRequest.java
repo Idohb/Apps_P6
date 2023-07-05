@@ -20,7 +20,7 @@ public class TransactionRequest {
     private double amountTransaction;
     private LocalDateTime timeTransaction;
     private double commission;
-    private int type;
+//    private int type;
     @NotNull
     private Long creditor;
     @NotNull

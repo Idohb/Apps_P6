@@ -1,0 +1,97 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-light">
+    <a class="navbar-brand text-uppercase fw-bold" href="javascript:window.location.href">
+      <img ngSrc="assets/logo.png" alt="paymybodylogo" width="104" height="30">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link fs-5" href="">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-5" href="">Transfer</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-5" href="">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-5" href="">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-5" href="">Log off</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div class="row">
+  <div class="bg-light">
+      <p class="fs-5">Home / Transfer</p>
+  </div>
+</div>
+<div class="container border col-12" id="main-container-friend">
+  <div class="row py-4">
+    <div class="offset-3 col-6">
+      <div class="clearfix">
+        <span class="fs-5 align-bottom">Send money</span>
+        <button type="button" class="btn btn-primary float-end" (click)="onOpenModalToAddFriends(null, 'add')">Add connection</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container border col-12" id="main-container-payment">
+  <div class="row">
+    <form #payForm="ngForm">
+      <div class="form-group">
+          <select name="debtor" [(ngModel)]="transactionRequestForm.debtor" id="debtor" (ngModelChange)="selected(transactionRequestForm.debtor)">
+            <option [ngValue]="" disabled >Select a Connection</option>
+            <option *ngFor="let friends of listFriends" [ngValue]=friends.idUser>{{friends.first_name}}</option>
+          </select>
+          <input type="number" [(ngModel)]="transactionRequestForm.amountTransaction" name="amountTransaction" placeholder="1.0" step="0.01" min="0" max="10000000" id="amountTransaction"/>
+          <button [disabled]="payForm.invalid" (click)="clickToPay(payForm.value)" class="btn btn-primary"  type="submit">Pay</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row py-4">
+
+  <div class="row">
+    <div class="offset-3">
+      My Transactions
+    </div>
+  </div>
+  <app-transaction></app-transaction>
+
+</div>
+
+<div class="modal fade" id="addPersonConnectionModal" tabindex="-1" role="dialog" aria-labelledby="addPersonModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPersonModalLabel">Add Person</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" [(ngModel)]="friend.email" name="email" class="form-control" id="email" placeholder="Email" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="add-employee-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button [disabled]="addForm.invalid" (click)="onAddPersonConnection(addForm.value)" type="submit" class="btn btn-primary" >Search Friends</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
