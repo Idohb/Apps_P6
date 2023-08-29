@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -27,9 +28,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (userEntity != null) {
             return new org.springframework.security.core.userdetails.User(userEntity.getEmail()
                     , userEntity.getPassword(),
-                    userEntity.getRoles().stream()
+                    Collections.singleton(new SimpleGrantedAuthority(userEntity.getRoles()))
+/*                    userEntity.getRoles().stream()
                             .map((role) -> new SimpleGrantedAuthority(role.getName()))
-                            .collect(Collectors.toList()));
+                            .collect(Collectors.toList())*/);
         } else {
             throw new UsernameNotFoundException("Invalid email or password");
         }

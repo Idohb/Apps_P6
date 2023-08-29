@@ -7,7 +7,7 @@ import com.p6.apps.model.entity.UserEntity;
 import com.p6.apps.model.repository.TransactionRepository;
 import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.Transaction;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

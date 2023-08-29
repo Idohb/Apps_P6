@@ -47,7 +47,7 @@ export class AuthService {
 
   public authenticationService(login:Login) : Observable<Login>{
     var test = this.createBasicAuthToken(login.email, login.password);
-    return this.http.get<Login>(this.apiServerUrl + "login/1"/*"greeting?name=" + test*/);
+    return this.http.get<Login>(this.apiServerUrl + "login"/*"greeting?name=" + test*/);
   }
 
   // public authenticationService(username: string, password: string) : Observable<Login>{

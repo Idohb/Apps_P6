@@ -1,5 +1,5 @@
 package com.p6.apps.model.entity;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;

@@ -8,7 +8,7 @@ import com.p6.apps.model.repository.BankOperationRepository;
 import com.p6.apps.model.repository.BankRepository;
 import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.BankOperation;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

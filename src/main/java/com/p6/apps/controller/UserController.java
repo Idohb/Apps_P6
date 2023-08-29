@@ -6,7 +6,7 @@ import com.p6.apps.controller.dto.user.RegisterRequest;
 import com.p6.apps.controller.dto.user.UserRequest;
 import com.p6.apps.service.UserService;
 import com.p6.apps.service.data.User;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @Slf4j
 public class UserController {
 

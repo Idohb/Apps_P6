@@ -1,7 +1,7 @@
 package com.p6.apps.model.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+import javax.persistence.*;
+import javax.validation.constraints.Min;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class UserEntity {
     private String password;
     @Min(value = 0)
     private double balance;
-
+    private String roles;
     @OneToMany(mappedBy = "debtor")
     private List<TransactionEntity> debtor;
 
@@ -51,12 +51,12 @@ public class UserEntity {
     @ManyToMany
     private Set<BankEntity> operationBank;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-    )
-    private List<RoleEntity> roles = new ArrayList<>();
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "users_roles",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+//    )
+//    private List<RoleEntity> roles = new ArrayList<>();
 
 }

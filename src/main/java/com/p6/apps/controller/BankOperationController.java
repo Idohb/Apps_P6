@@ -3,7 +3,7 @@ package com.p6.apps.controller;
 import com.p6.apps.controller.dto.bank.BankOperationRequest;
 import com.p6.apps.service.BankOperationService;
 import com.p6.apps.service.data.BankOperation;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

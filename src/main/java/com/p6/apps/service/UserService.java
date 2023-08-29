@@ -56,13 +56,13 @@ public class UserService {
                 userRequest.getEmail(),
                 userRequest.getPassword(),
                 0,
+                "ROLE_USER",
                 new ArrayList<>(),  // debtor
                 new ArrayList<>(),  // creditor
                 new ArrayList<>(),  // friend
                 new ArrayList<>(),  // bank
                 new ArrayList<>(),  // bankOperation
-                new HashSet<>(),    // operationBank
-                roleEntities   // role
+                new HashSet<>()    // operationBank
         );
         UserEntity entity = userRepository.save(userEntity);
         return modelMapper.map(entity, User.class);
@@ -79,7 +79,7 @@ public class UserService {
     }
 
     public User searchEmailAndPassword(String email, String password) {
-        UserEntity userEntity = userRepository.findByEmailAndPassword(email, password).orElseThrow(() -> new NoSuchElementException(""));
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException(""));
         return modelMapper.map(
                 userEntity,
                 User.class

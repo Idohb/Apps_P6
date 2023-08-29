@@ -2,7 +2,7 @@ package com.p6.apps.controller;
 import com.p6.apps.controller.dto.bank.BankRequest;
 import com.p6.apps.service.BankService;
 import com.p6.apps.service.data.Bank;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @Slf4j
 public class BankController {
 
