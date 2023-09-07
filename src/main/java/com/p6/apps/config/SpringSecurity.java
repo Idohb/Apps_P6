@@ -62,8 +62,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .anyRequest().authenticated()
-                .and().formLogin()
-                /*.loginPage(LOGIN_URL)*/.permitAll()
+                .and()
+                .formLogin().permitAll()
                 .loginProcessingUrl(LOGIN_PROCESSING_URL)
                 .failureUrl(LOGIN_FAILURE_URL)
                 .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
@@ -71,7 +71,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); //TODO:argon2
     }
 
     @Bean
