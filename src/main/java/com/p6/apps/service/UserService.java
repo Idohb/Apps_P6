@@ -9,6 +9,7 @@ import com.p6.apps.model.repository.UserRepository;
 import com.p6.apps.service.data.User;
 import com.p6.apps.util.TbConstants;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,9 @@ public class UserService {
         List<RoleEntity> roleEntities = new ArrayList<>();
         RoleEntity role = roleRepository.findByName(TbConstants.Roles.USER);
         roleEntities.add(role);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(userRequest.getPassword());
+        final int DEFAULT_AUTH = 1;
 
         //create an custom exception
         if(!this.verifyEmailRedundant(userRequest)) { return new User();}
@@ -54,9 +58,10 @@ public class UserService {
                 userRequest.getFirst_name(),
                 userRequest.getLast_name(),
                 userRequest.getEmail(),
-                userRequest.getPassword(),
+                encodedPassword,
                 0,
                 "ROLE_USER",
+                DEFAULT_AUTH,
                 new ArrayList<>(),  // debtor
                 new ArrayList<>(),  // creditor
                 new ArrayList<>(),  // friend
@@ -86,6 +91,8 @@ public class UserService {
         );
     }
     private void updateEntity(UserEntity userEntity, UserRequest userRequest) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(userRequest.getPassword());
 
         if (userRequest.getFirst_name() != null)
             userEntity.setFirst_name(userRequest.getFirst_name());
@@ -97,7 +104,7 @@ public class UserService {
             userEntity.setEmail(userRequest.getEmail());
 
         if (userRequest.getPassword() != null)
-            userEntity.setPassword(userRequest.getPassword());
+            userEntity.setPassword(encodedPassword);
     }
 
     public void deleteUser(final Long id) {
