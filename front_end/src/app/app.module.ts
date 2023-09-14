@@ -10,9 +10,11 @@ import {RouterModule, Routes} from "@angular/router";
 import { UserComponent } from './user/user.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import {NgOptimizedImage} from "@angular/common";
+import { RegistrationComponent } from './registration/registration.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegistrationComponent },
   { path: 'user/:id', component: UserComponent },
   { path: 'transaction', component:TransactionComponent},
   { path: '', component: LoginComponent }
@@ -21,8 +23,10 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
+    RegistrationComponent,
     UserComponent,
-    TransactionComponent
+    TransactionComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
