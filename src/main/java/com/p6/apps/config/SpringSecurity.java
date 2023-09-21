@@ -1,15 +1,12 @@
 package com.p6.apps.config;
 
-import com.p6.apps.util.TbConstants;
+//import com.p6.apps.util.TbConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,9 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
@@ -29,9 +24,9 @@ import java.util.List;
 @EnableWebSecurity
 public class SpringSecurity /*extends WebSecurityConfigurerAdapter*/ {
     private static final String LOGIN_PROCESSING_URL = "/login?";
-    private static final String LOGIN_FAILURE_URL = "/login?error";
-    private static final String LOGIN_URL = "/login?";
-    private static final String LOGOUT_SUCCESS_URL = "/login?";
+//    private static final String LOGIN_FAILURE_URL = "/login?error";
+//    private static final String LOGIN_URL = "/login?";
+//    private static final String LOGOUT_SUCCESS_URL = "/login?";
 
     @Autowired
     private DataSource dataSource;
@@ -70,31 +65,32 @@ public class SpringSecurity /*extends WebSecurityConfigurerAdapter*/ {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize) ->
-                        authorize
-                                .antMatchers("/user/**")                    .permitAll()
-                                .antMatchers("/balance/**")                 .permitAll()
-                                .antMatchers("/friends/**")                 .permitAll()
-                                .antMatchers("/friend/**")                  .permitAll()
-                                .antMatchers("/signon/**")                  .permitAll()
-                                .antMatchers("/transactions")               .permitAll()
-                                .antMatchers("/transactionByCreditor/**")   .permitAll()
-                                .anyRequest().authenticated()
-                ).formLogin(form -> form
-                        .permitAll()
-                        .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                ).logout(
-                        logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .permitAll()
-                );
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests((authorize) ->
+                authorize
+                    .antMatchers("/user/**")                    .permitAll()
+                    .antMatchers("/balance/**")                 .permitAll()
+                    .antMatchers("/friends/**")                 .permitAll()
+                    .antMatchers("/friend/**")                  .permitAll()
+                    .antMatchers("/signon/**")                  .permitAll()
+                    .antMatchers("/transactions")               .permitAll()
+                    .antMatchers("/transactionByCreditor/**")   .permitAll()
+                    .anyRequest().authenticated()
+            ).formLogin(form ->
+                form
+                    .permitAll()
+                    .loginProcessingUrl(LOGIN_PROCESSING_URL)
+            ).logout(logout ->
+                logout
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .permitAll()
+            );
         return http.build();
     }
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); //TODO:argon2
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
