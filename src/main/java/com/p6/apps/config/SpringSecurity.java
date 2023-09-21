@@ -24,12 +24,17 @@ import java.util.List;
 @EnableWebSecurity
 public class SpringSecurity /*extends WebSecurityConfigurerAdapter*/ {
     private static final String LOGIN_PROCESSING_URL = "/login?";
-//    private static final String LOGIN_FAILURE_URL = "/login?error";
+    private static final String LOGIN_FAILURE_URL = "/login?error";
 //    private static final String LOGIN_URL = "/login?";
-//    private static final String LOGOUT_SUCCESS_URL = "/login?";
+    private static final String LOGOUT_SUCCESS_URL = "/login?";
 
+
+    private final DataSource dataSource;
     @Autowired
-    private DataSource dataSource;
+    public SpringSecurity (DataSource dataSource) {
+        this.dataSource = dataSource;
+
+    }
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder authBuilder) throws Exception {
@@ -40,27 +45,6 @@ public class SpringSecurity /*extends WebSecurityConfigurerAdapter*/ {
                 .passwordEncoder(new BCryptPasswordEncoder()/*new Argon2PasswordEncoder(16,32,1,1<<14,2)*/)
         ;
     }
-
-
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/balance/**").permitAll()
-//                .antMatchers("/friend/**") .permitAll()
-//                .antMatchers("/friends/**").permitAll()
-//                .antMatchers("/signon/**") .permitAll()
-//                .antMatchers(HttpMethod.GET).permitAll()
-//                .antMatchers(HttpMethod.POST).permitAll()
-//                .antMatchers(HttpMethod.PUT).permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().permitAll()
-//                .loginProcessingUrl(LOGIN_PROCESSING_URL)
-//                .failureUrl(LOGIN_FAILURE_URL)
-//                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
-//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -80,10 +64,13 @@ public class SpringSecurity /*extends WebSecurityConfigurerAdapter*/ {
                 form
                     .permitAll()
                     .loginProcessingUrl(LOGIN_PROCESSING_URL)
+                    .failureUrl(LOGIN_FAILURE_URL)
             ).logout(logout ->
                 logout
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
                     .permitAll()
+
             );
         return http.build();
     }
@@ -108,27 +95,5 @@ public class SpringSecurity /*extends WebSecurityConfigurerAdapter*/ {
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/registration/**").permitAll()
-//                        .requestMatchers("/login/**").permitAll()
-//                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-//                        .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin((form) -> form
-//                        .loginPage("/login")
-//                        .loginProcessingUrl("/login")
-//                        .defaultSuccessUrl("/user/")
-//                        .permitAll()
-//                )
-//                .logout(LogoutConfigurer::permitAll)
-//                .exceptionHandling().accessDeniedPage("/access-denied");
-//        return http.build();
-//    }
-
 
 }
