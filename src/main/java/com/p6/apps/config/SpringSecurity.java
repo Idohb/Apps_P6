@@ -1,6 +1,8 @@
 package com.p6.apps.config;
 
+import com.p6.apps.util.TbConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -8,23 +10,24 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurity extends WebSecurityConfigurerAdapter {
+public class SpringSecurity /*extends WebSecurityConfigurerAdapter*/ {
     private static final String LOGIN_PROCESSING_URL = "/login?";
     private static final String LOGIN_FAILURE_URL = "/login?error";
     private static final String LOGIN_URL = "/login?";
@@ -37,46 +40,56 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     public void configAuthentication(AuthenticationManagerBuilder authBuilder) throws Exception {
         authBuilder.jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("SELECT  email, password, enabled FROM  user where email=?")
+                .usersByUsernameQuery("SELECT  email, password FROM  user where email=?")
                 .authoritiesByUsernameQuery("SELECT email, roles FROM  user where email=?")
                 .passwordEncoder(new BCryptPasswordEncoder()/*new Argon2PasswordEncoder(16,32,1,1<<14,2)*/)
         ;
     }
 
+
+
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/edit/*", "/delete/*").hasRole("ADMIN")
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/balance/**").permitAll()
+//                .antMatchers("/friend/**") .permitAll()
+//                .antMatchers("/friends/**").permitAll()
+//                .antMatchers("/signon/**") .permitAll()
+//                .antMatchers(HttpMethod.GET).permitAll()
+//                .antMatchers(HttpMethod.POST).permitAll()
+//                .antMatchers(HttpMethod.PUT).permitAll()
 //                .anyRequest().authenticated()
 //                .and()
 //                .formLogin().permitAll()
-//                .and()
-//                .logout().permitAll()
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/403")
-//        ;
+//                .loginProcessingUrl(LOGIN_PROCESSING_URL)
+//                .failureUrl(LOGIN_FAILURE_URL)
+//                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
 //    }
 
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/balance/**").permitAll()
-                .antMatchers("/friend/**") .permitAll()
-                .antMatchers("/friends/**").permitAll()
-                .antMatchers("/signon/**") .permitAll()
-                .antMatchers(HttpMethod.GET).permitAll()
-                .antMatchers(HttpMethod.POST).permitAll()
-                .antMatchers(HttpMethod.PUT).permitAll()
-                .and()
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll()
-                .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                .failureUrl(LOGIN_FAILURE_URL)
-                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((authorize) ->
+                        authorize
+                                .antMatchers("/user/**")                    .permitAll()
+                                .antMatchers("/balance/**")                 .permitAll()
+                                .antMatchers("/friends/**")                 .permitAll()
+                                .antMatchers("/friend/**")                  .permitAll()
+                                .antMatchers("/signon/**")                  .permitAll()
+                                .antMatchers("/transactions")               .permitAll()
+                                .antMatchers("/transactionByCreditor/**")   .permitAll()
+                                .anyRequest().authenticated()
+                ).formLogin(form -> form
+                        .permitAll()
+                        .loginProcessingUrl(LOGIN_PROCESSING_URL)
+                ).logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                );
+        return http.build();
     }
 
     @Bean

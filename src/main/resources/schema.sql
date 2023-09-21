@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS `dbp6`.`user` (
   `password` VARCHAR(100) NOT NULL,
   `balance` DOUBLE ZEROFILL NOT NULL,
   `roles` VARCHAR(45) NOT NULL,
-  `enabled` INT DEFAULT NULL,
   PRIMARY KEY (`id_user`))
 ENGINE = InnoDB;
 

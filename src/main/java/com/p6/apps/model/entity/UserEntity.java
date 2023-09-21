@@ -28,7 +28,6 @@ public class UserEntity {
     @Min(value = 0)
     private double balance;
     private String roles;
-//    private int enable;
     @OneToMany(mappedBy = "debtor")
     private List<TransactionEntity> debtor;
 

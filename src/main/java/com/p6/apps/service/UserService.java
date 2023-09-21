@@ -61,7 +61,6 @@ public class UserService {
                 encodedPassword,
                 0,
                 "ROLE_USER",
-//                DEFAULT_AUTH,
                 new ArrayList<>(),  // debtor
                 new ArrayList<>(),  // creditor
                 new ArrayList<>(),  // friend
