@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {Registration} from "./registration";
+import {Login} from "../login/login";
+import {RegistrationService} from "./registration.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registration',
@@ -13,4 +16,22 @@ export class RegistrationComponent {
     email: string = "";
     password: string = "";
   };
+
+constructor(private registerService : RegistrationService,
+            private router : Router) {
+}
+
+  onToggleRegistersCheck(registration : Registration) {
+    this.registerService.postRegister(registration).subscribe( {
+      next: (data) => {
+        this.router.navigate(['login/']);
+      },
+      error :  () => {
+        this.router.navigate(['login']);
+      },
+      complete: () => console.info('complete')
+    });
+
+  }
+
 }

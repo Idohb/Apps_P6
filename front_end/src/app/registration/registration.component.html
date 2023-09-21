@@ -64,17 +64,15 @@
                   </div>
 
                   <div class="row">
-                    <input type="password" [(ngModel)]="loginForm.password" name="password" id="password"
+                    <input type="password" [(ngModel)]="registrationForm.password" name="password" id="password"
                            class="form-control_password" placeholder="Password">
                   </div>
-
+                  <div class="py-4"></div>
+                  <div class="text-center">
+                    <button type="submit" (click)="onToggleRegistersCheck(editForm.value)" class="btn btn-primary">Sign Up
+                    </button>
+                  </div>
                 </form>
-
-              </div>
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                     class="img-fluid" alt="Sample image">
 
               </div>
             </div>

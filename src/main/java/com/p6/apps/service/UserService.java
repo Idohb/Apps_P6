@@ -45,9 +45,9 @@ public class UserService {
     }
 
     public User addUser(RegisterRequest userRequest) {
-        List<RoleEntity> roleEntities = new ArrayList<>();
-        RoleEntity role = roleRepository.findByName(TbConstants.Roles.USER);
-        roleEntities.add(role);
+//        List<RoleEntity> roleEntities = new ArrayList<>();
+//        RoleEntity role = roleRepository.findByName(TbConstants.Roles.USER);
+//        roleEntities.add(role);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(userRequest.getPassword());
         final int DEFAULT_AUTH = 1;
@@ -61,7 +61,7 @@ public class UserService {
                 encodedPassword,
                 0,
                 "ROLE_USER",
-                DEFAULT_AUTH,
+//                DEFAULT_AUTH,
                 new ArrayList<>(),  // debtor
                 new ArrayList<>(),  // creditor
                 new ArrayList<>(),  // friend
